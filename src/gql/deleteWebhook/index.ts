@@ -8,8 +8,8 @@ interface Response {
 	}[]
 }
 
-export default async function deleteWebhook(webhookDeleteId: string, token: string) {
-	return request<Response>(process.env.WYVERN_URL!, query, { webhookDeleteId }, {
+export default async function deleteWebhook(webhookDeleteId: string, token: string, wyvernURL: string) {
+	return request<Response>(wyvernURL, query, { webhookDeleteId }, {
 		authorization: `Bearer ${token}`
 	});
 }

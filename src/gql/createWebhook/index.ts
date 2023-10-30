@@ -19,8 +19,8 @@ type WebhookCreateInput = {
   }
 }
 
-export default async function createWebhook(variables: WebhookCreateInput, token: string) {
-	return request<Webhook>(process.env.WYVERN_URL!, query, variables, {
+export default async function createWebhook(wyvernURL: string, variables: WebhookCreateInput, token: string) {
+	return request<Webhook>(wyvernURL, query, variables, {
 		authorization: `Bearer ${token}`
 	});
 }

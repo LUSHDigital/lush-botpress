@@ -12,8 +12,8 @@ interface App {
 	}
 }
 
-export default async function app(token: string) {
-	return request<App>(process.env.WYVERN_URL!, query, undefined, {
+export default async function app(token: string, wyvernURL: string) {
+	return request<App>(wyvernURL, query, undefined, {
 		authorization: `Bearer ${token}`
 	});
 }

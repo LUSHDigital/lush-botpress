@@ -2,11 +2,11 @@ import type { Request } from '@botpress/sdk';
 import * as jose from 'jose';
 import { SALEOR_SIGNATURE_HEADER } from '../const';
 
-const JWKS = jose.createRemoteJWKSet(
-  new URL(`${process.env.SALEOR_DOMAIN}/.well-known/jwks.json`)
-);
 
-export async function verifyWebhook(req: Request) {
+export async function verifyWebhook(req: Request, saleorDomain: string) {
+  const JWKS = jose.createRemoteJWKSet(
+    new URL(`${saleorDomain}/.well-known/jwks.json`)
+  );
   const jws = req.headers[SALEOR_SIGNATURE_HEADER]!;
 
   try {

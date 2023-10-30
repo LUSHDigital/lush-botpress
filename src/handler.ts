@@ -9,7 +9,7 @@ import {
 	handleCheckoutPaid 
 } from './misc/ops';
 
-export const handler: IntegrationProps['handler'] = async ({ req, logger, client }) => {
+export const handler: IntegrationProps['handler'] = async ({ req, logger, client, ctx}) => {
 	// In Saleor 4 they're dropping x- prefixed headers
   const { body, headers } = req
   const signature = headers[`x-${SALEOR_SIGNATURE_HEADER}`] || headers[SALEOR_SIGNATURE_HEADER]
@@ -19,8 +19,9 @@ export const handler: IntegrationProps['handler'] = async ({ req, logger, client
 		logger.forBot().warn('Body or signature is missing')
 		return
   }
+	const { saleorDomain } = ctx.configuration
 
-	if (!(await verifyWebhook(req))) {
+	if (!(await verifyWebhook(req, saleorDomain))) {
 		logger.forBot().warn('Invalid webhook secret')
 		return
 	}

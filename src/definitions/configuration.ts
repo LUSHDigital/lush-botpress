@@ -3,7 +3,8 @@ import { z } from 'zod'
 
 export const configuration = {
   schema: z.object({
-    botToken: z.string(),
     token: z.string(),
+    wyvernURL: z.string(),
+    saleorDomain: z.string(),
   }),
 } satisfies IntegrationDefinitionProps['configuration']

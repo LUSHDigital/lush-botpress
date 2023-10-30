@@ -6,8 +6,8 @@ import deleteWebhook from "src/gql/deleteWebhook";
 import { Checkout, Product } from "./types";
 import { getUserAndConversation } from "./utils";
 
-export async function createOrGetWebhook(url: string, token: string) {
-	const data = await app(token);
+export async function createOrGetWebhook(url: string, token: string, wyvernURL: string) {
+	const data = await app(token, wyvernURL);
 	const previous = data.app.webhooks.find((webhook) => {
 		return webhook.targetUrl === url
 	});
@@ -18,7 +18,7 @@ export async function createOrGetWebhook(url: string, token: string) {
 	}
 
 	// New url, new hook.
-	return createWebhook({
+	return createWebhook(wyvernURL, {
 		input: {
 			asyncEvents: ["ANY_EVENTS"],
 			isActive: true,
@@ -28,9 +28,9 @@ export async function createOrGetWebhook(url: string, token: string) {
 	}, token)
 }
 
-export async function removeWebhook(url: string, token: string) {
+export async function removeWebhook(url: string, token: string, wyvernURL: string) {
 	console.log('removeWebhook invoked')
-	const data = await app(token);
+	const data = await app(token, wyvernURL);
 	const previous = data.app.webhooks.find((webhook) => {
 		return webhook.targetUrl === url
 	});
@@ -38,7 +38,7 @@ export async function removeWebhook(url: string, token: string) {
 	// Found a webhook with the same URL so no need to create a new one.
 	if (previous) {
 		console.log('found old webhook, will remove');
-		const x = await deleteWebhook(previous.id, token);
+		const x = await deleteWebhook(previous.id, token, wyvernURL);
 		console.log('x', x);
 		return x;
 	}
