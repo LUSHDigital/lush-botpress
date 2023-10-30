@@ -1,5 +1,4 @@
 import { request } from 'graphql-request';
-import { WYVERN_URL } from 'src/const';
 import query from './query';
 
 interface App {
@@ -14,7 +13,7 @@ interface App {
 }
 
 export default async function app(token: string) {
-	return request<App>(WYVERN_URL, query, undefined, {
+	return request<App>(process.env.WYVERN_URL!, query, undefined, {
 		authorization: `Bearer ${token}`
 	});
 }

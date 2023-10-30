@@ -1,9 +1,9 @@
 import type { Request } from '@botpress/sdk';
 import * as jose from 'jose';
-import { SALEOR_DOMAIN, SALEOR_SIGNATURE_HEADER } from '../const';
+import { SALEOR_SIGNATURE_HEADER } from '../const';
 
 const JWKS = jose.createRemoteJWKSet(
-  new URL(`${SALEOR_DOMAIN}/.well-known/jwks.json`)
+  new URL(`${process.env.SALEOR_DOMAIN}/.well-known/jwks.json`)
 );
 
 export async function verifyWebhook(req: Request) {
