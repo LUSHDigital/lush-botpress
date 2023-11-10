@@ -10,10 +10,10 @@ export default new IntegrationDefinition({
 	events,
 	configuration,
 	description: 'Allows two-way communication between the Lush Digital Estate and Botpress.',
-	icon: 'icon.jpg',
-	readme: 'hub.md',
+	icon: 'icon.svg',
+	//readme: 'hub.md',
 	states,
 	user,
-  name: INTEGRATION_NAME,
-  version: '0.0.1'
+	name: INTEGRATION_NAME,
+	version: '0.0.1'
 })
