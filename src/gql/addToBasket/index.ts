@@ -16,7 +16,7 @@ type CheckoutLineInput = Array<{
   forceNewLine?: string
 }>
 
-export default async function addToBasket (checkoutId: string, lines: CheckoutLineInput, token: string, wyvernURL: string) {
+export default async function addToBasket (checkoutId: string, lines: CheckoutLineInput, token: string, wyvernURL: string): Promise<Response> {
   return await request<Response>(wyvernURL, query, { checkoutId, lines }, {
     authorization: `Bearer ${token}`
   })

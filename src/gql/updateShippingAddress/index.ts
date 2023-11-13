@@ -18,7 +18,7 @@ interface AddressInput {
   country: string
 }
 
-export default async function updateShippingAddress (checkoutId: string, shippingAddress: AddressInput, token: string, wyvernURL: string) {
+export default async function updateShippingAddress (checkoutId: string, shippingAddress: AddressInput, token: string, wyvernURL: string): Promise<Response> {
   return await request<Response>(wyvernURL, query, { checkoutId, shippingAddress }, {
     authorization: `Bearer ${token}`
   })

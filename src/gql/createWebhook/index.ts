@@ -19,7 +19,7 @@ interface WebhookCreateInput {
   }
 }
 
-export default async function createWebhook (wyvernURL: string, variables: WebhookCreateInput, token: string) {
+export default async function createWebhook (wyvernURL: string, variables: WebhookCreateInput, token: string): Promise<Webhook> {
   return await request<Webhook>(wyvernURL, query, variables, {
     authorization: `Bearer ${token}`
   })

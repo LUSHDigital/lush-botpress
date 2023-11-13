@@ -8,7 +8,7 @@ interface Response {
   }>
 }
 
-export default async function getCustomerOrders (userId: string, token: string, wyvernURL: string) {
+export default async function getCustomerOrders (userId: string, token: string, wyvernURL: string): Promise<Response> {
   return await request<Response>(wyvernURL, query, { userId, first: 10 }, {
     authorization: `Bearer ${token}`
   })

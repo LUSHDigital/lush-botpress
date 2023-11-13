@@ -15,7 +15,7 @@ type CheckoutLineUpdateInput = Array<{
   price?: number
 }>
 
-export default async function updateQuantity (checkoutId: string, lines: CheckoutLineUpdateInput, token: string, wyvernURL: string) {
+export default async function updateQuantity (checkoutId: string, lines: CheckoutLineUpdateInput, token: string, wyvernURL: string): Promise<Response> {
   return await request<Response>(wyvernURL, query, { checkoutId, lines }, {
     authorization: `Bearer ${token}`
   })

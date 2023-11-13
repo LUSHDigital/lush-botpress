@@ -8,7 +8,7 @@ interface Response {
   }>
 }
 
-export default async function removeFromBasket (checkoutId: string, lineId: string, token: string, wyvernURL: string) {
+export default async function removeFromBasket (checkoutId: string, lineId: string, token: string, wyvernURL: string): Promise<Response> {
   return await request<Response>(wyvernURL, query, { checkoutId, lineId }, {
     authorization: `Bearer ${token}`
   })

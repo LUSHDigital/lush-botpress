@@ -12,7 +12,7 @@ interface App {
   }
 }
 
-export default async function app (token: string, wyvernURL: string) {
+export default async function app (token: string, wyvernURL: string): Promise<App> {
   return await request<App>(wyvernURL, query, undefined, {
     authorization: `Bearer ${token}`
   })

@@ -8,7 +8,7 @@ const addToBasket = {
   input: {
     schema: z.object({
       variantId: z.string().describe('The ID of the product variant, ex: UHJvZHVjdFZhcmlhbnQ6NDMxNA=='),
-      quantity: z.number().min(1).default(1).describe('How many to add, ex: 1')
+      quantity: z.string().describe('How many to add, ex: 1')
     }),
     ui: {}
   },
