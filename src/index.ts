@@ -9,7 +9,7 @@ const integration = new Integration({
   channels,
   handler,
   register,
-  unregister,
+  unregister
 })
 
-export default integration;
+export default integration

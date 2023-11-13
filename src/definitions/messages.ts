@@ -3,35 +3,35 @@ import { z } from 'zod'
 const NonEmptyString = z.string().min(1)
 
 const textMessageSchema = z.object({
-  text: NonEmptyString,
+  text: NonEmptyString
 })
 
 const markdownMessageSchema = z.object({
-  markdown: NonEmptyString,
+  markdown: NonEmptyString
 })
 
 const imageMessageSchema = z.object({
-  imageUrl: NonEmptyString,
+  imageUrl: NonEmptyString
 })
 
 const audioMessageSchema = z.object({
-  audioUrl: NonEmptyString,
+  audioUrl: NonEmptyString
 })
 
 const videoMessageSchema = z.object({
-  videoUrl: NonEmptyString,
+  videoUrl: NonEmptyString
 })
 
 const fileMessageSchema = z.object({
   fileUrl: NonEmptyString,
-  title: NonEmptyString.optional(),
+  title: NonEmptyString.optional()
 })
 
 const locationMessageSchema = z.object({
   latitude: z.number(),
   longitude: z.number(),
   address: z.string().optional(),
-  title: z.string().optional(),
+  title: z.string().optional()
 })
 
 const cardSchema = z.object({
@@ -42,9 +42,9 @@ const cardSchema = z.object({
     z.object({
       action: z.enum(['postback', 'url', 'say']),
       label: NonEmptyString,
-      value: NonEmptyString,
+      value: NonEmptyString
     })
-  ),
+  )
 })
 
 const choiceSchema = z.object({
@@ -52,13 +52,13 @@ const choiceSchema = z.object({
   options: z.array(
     z.object({
       label: NonEmptyString,
-      value: NonEmptyString,
+      value: NonEmptyString
     })
-  ),
+  )
 })
 
 const carouselSchema = z.object({
-  items: z.array(cardSchema),
+  items: z.array(cardSchema)
 })
 
 export const messages = {
@@ -72,5 +72,5 @@ export const messages = {
   carousel: { schema: carouselSchema },
   card: { schema: cardSchema },
   dropdown: { schema: choiceSchema },
-  choice: { schema: choiceSchema },
+  choice: { schema: choiceSchema }
 }

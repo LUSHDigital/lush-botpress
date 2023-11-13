@@ -1,4 +1,4 @@
-import { gql } from "graphql-request";
+import { gql } from 'graphql-request'
 
 export default gql`
 query getBasket($userId: ID) {
@@ -31,4 +31,4 @@ query getBasket($userId: ID) {
       }
     }
   }
-}`;
+}`

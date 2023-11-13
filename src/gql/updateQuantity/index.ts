@@ -1,22 +1,22 @@
-import { request } from 'graphql-request';
-import query from './query';
+import { request } from 'graphql-request'
+import query from './query'
 
 interface Response {
-	errors: {
-		message: string;
-		code: string;
-	}[]
+  errors: Array<{
+    message: string
+    code: string
+  }>
 }
 
-type CheckoutLineUpdateInput = {
-	lineId: number;
-	variantId: string;
-	quantity: number;
-	price?: number;
-}[]
+type CheckoutLineUpdateInput = Array<{
+  lineId: number
+  variantId: string
+  quantity: number
+  price?: number
+}>
 
-export default async function updateQuantity(checkoutId: string, lines: CheckoutLineUpdateInput, token: string, wyvernURL: string) {
-	return request<Response>(wyvernURL, query, { checkoutId, lines }, {
-		authorization: `Bearer ${token}`
-	});
+export default async function updateQuantity (checkoutId: string, lines: CheckoutLineUpdateInput, token: string, wyvernURL: string) {
+  return await request<Response>(wyvernURL, query, { checkoutId, lines }, {
+    authorization: `Bearer ${token}`
+  })
 }

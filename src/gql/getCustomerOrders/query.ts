@@ -28,4 +28,4 @@ query getCustomerOrders($userId: ID, $first: Int) {
     }
   }
 }
-`;
+`

@@ -1,4 +1,4 @@
-import { gql } from "graphql-request";
+import { gql } from 'graphql-request'
 
 export default gql`
 query getCustomerAddress($id: ID) {
@@ -22,4 +22,4 @@ query getCustomerAddress($id: ID) {
       }
     }
   }
-}`;
+}`

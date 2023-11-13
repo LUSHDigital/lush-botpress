@@ -9,4 +9,4 @@ export default gql`query App {
       targetUrl
     }
   }
-}`;
+}`

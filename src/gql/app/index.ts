@@ -1,19 +1,19 @@
-import { request } from 'graphql-request';
-import query from './query';
+import { request } from 'graphql-request'
+import query from './query'
 
 interface App {
-	app: {
-		webhooks: { 
-			id: string;
-			isActive: boolean;
-			name: string;
-			targetUrl: string;
-		}[]
-	}
+  app: {
+    webhooks: Array<{
+      id: string
+      isActive: boolean
+      name: string
+      targetUrl: string
+    }>
+  }
 }
 
-export default async function app(token: string, wyvernURL: string) {
-	return request<App>(wyvernURL, query, undefined, {
-		authorization: `Bearer ${token}`
-	});
+export default async function app (token: string, wyvernURL: string) {
+  return await request<App>(wyvernURL, query, undefined, {
+    authorization: `Bearer ${token}`
+  })
 }

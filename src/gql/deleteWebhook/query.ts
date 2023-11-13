@@ -8,4 +8,4 @@ mutation WebhookDelete($webhookDeleteId: ID!) {
       code
     }
   }
-}`;
+}`

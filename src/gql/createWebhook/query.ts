@@ -9,4 +9,4 @@ export default gql`mutation WebhookCreate($input: WebhookCreateInput!) {
       targetUrl
     }
   }
-}`;
+}`

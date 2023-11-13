@@ -1,36 +1,36 @@
 import { IntegrationDefinitionProps } from '@botpress/sdk'
-import { messages } from './messages';
+import { messages } from './messages'
 
 export const channels = {
   basket: {
     messages: {
-      text: messages.text,
+      text: messages.text
     },
     message: {
       tags: {
-        id: {},
-      },
+        id: {}
+      }
     },
     conversation: {
       tags: {
-        id: {},
-      },
-    },
+        id: {}
+      }
+    }
   },
   channel: {
     messages: {
-      text: messages.text,
+      text: messages.text
     },
     message: {
       tags: {
-        id: {},
-      },
+        id: {}
+      }
     },
     conversation: {
       tags: {
         id: {},
-        number: {},
-      },
-    },
-  },
+        number: {}
+      }
+    }
+  }
 } satisfies IntegrationDefinitionProps['channels']

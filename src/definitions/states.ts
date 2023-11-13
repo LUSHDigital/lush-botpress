@@ -5,7 +5,7 @@ export const states = {
   configuration: {
     type: 'integration',
     schema: z.object({
-      botUserId: z.string().optional(),
-    }),
-  },
+      botUserId: z.string().optional()
+    })
+  }
 } satisfies IntegrationDefinitionProps['states']

@@ -10,7 +10,7 @@ type Client = Parameters<RegisterFunction>[0]['client']
 export const fireBasketUpdated = async ({
   req,
   client,
-  logger,
+  logger
 }: {
   req: Request
   client: Client
@@ -19,7 +19,7 @@ export const fireBasketUpdated = async ({
 }) => {
   const saleorEvent = JSON.parse(req.body || '')
 
-	console.log('fireBasketUpdated event', saleorEvent)
+  console.log('fireBasketUpdated event', saleorEvent)
 
   const payload = {
     order_id: saleorEvent.id,
@@ -32,7 +32,7 @@ export const fireBasketUpdated = async ({
     current_total_tax: saleorEvent.current_total_tax,
     customer_locale: saleorEvent.customer_locale,
     order_status_url: saleorEvent.order_status_url,
-    fullBody: req,
+    fullBody: req
   }
 
   const parsedObject = checkoutSchema.parse(payload)
@@ -41,6 +41,6 @@ export const fireBasketUpdated = async ({
 
   await client.createEvent({
     type: 'basketUpdated',
-    payload: parsedObject,
+    payload: parsedObject
   })
 }

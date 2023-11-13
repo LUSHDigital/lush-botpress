@@ -1,4 +1,4 @@
-import { gql } from "graphql-request";
+import { gql } from 'graphql-request'
 
 export default gql`
 mutation updateQuantity($id: ID, $lines: [CheckoutLineUpdateInput!]!) {

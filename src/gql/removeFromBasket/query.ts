@@ -1,4 +1,4 @@
-import { gql } from "graphql-request";
+import { gql } from 'graphql-request'
 
 export default gql`
 mutation removeFromBasket($checkoutId: ID, $lineId: ID) {
@@ -20,4 +20,4 @@ mutation removeFromBasket($checkoutId: ID, $lineId: ID) {
       message
     }
   }
-}`;
+}`

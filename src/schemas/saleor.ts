@@ -8,7 +8,7 @@ import {
   ID,
   FluffyType,
   VariantType
-} from "src/misc/types"
+} from 'src/misc/types'
 
 export const channelSchema = z.object({
   type: z.string(),
@@ -60,8 +60,8 @@ export const mediaSchema = z.object({
 })
 
 export const fluffyMetadataSchema = z.object({
-  "avatax.code": z.string(),
-  "avatax.description": z.string()
+  'avatax.code': z.string(),
+  'avatax.description': z.string()
 })
 
 export const fluffyTypeSchema = z.nativeEnum(FluffyType)

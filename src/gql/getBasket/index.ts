@@ -1,15 +1,15 @@
-import { request } from 'graphql-request';
-import query from './query';
+import { request } from 'graphql-request'
+import query from './query'
 
 interface Response {
-	errors: {
-		message: string;
-		code: string;
-	}[]
+  errors: Array<{
+    message: string
+    code: string
+  }>
 }
 
-export default async function getBasket(userId: string, token: string, wyvernURL: string) {
-	return request<Response>(wyvernURL, query, { userId }, {
-		authorization: `Bearer ${token}`
-	});
+export default async function getBasket (userId: string, token: string, wyvernURL: string) {
+  return await request<Response>(wyvernURL, query, { userId }, {
+    authorization: `Bearer ${token}`
+  })
 }

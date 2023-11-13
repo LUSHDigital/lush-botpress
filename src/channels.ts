@@ -1,24 +1,24 @@
 import type { Channels } from './misc/types'
 
 class NotImplementedError extends Error {
-  constructor() {
+  constructor () {
     super('Not implemented')
   }
 }
 
 export const channels: Channels = {
-	basket: {
+  basket: {
     messages: {
       text: async (args: unknown) => {
-				console.log('src/channels basket -> text', args)
+        console.log('src/channels basket -> text', args)
         throw new NotImplementedError()
-      },
-		},
-	},
+      }
+    }
+  },
   channel: {
     messages: {
       text: async (args: unknown) => {
-				console.log('src/channels channel -> text', args)
+        console.log('src/channels channel -> text', args)
         throw new NotImplementedError()
       },
       image: async () => {
@@ -50,7 +50,7 @@ export const channels: Channels = {
       },
       dropdown: async () => {
         throw new NotImplementedError()
-      },
-    },
-  },
+      }
+    }
+  }
 }
