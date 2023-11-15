@@ -4,7 +4,7 @@ import type { Implementation } from '../misc/types'
 // import addToBasketRequest from '../gql/addToBasket'
 
 const query = gql`
-query getCustomerOrders($userId: String) {
+query getCustomerCheckout($userId: String) {
   user(externalReference: $userId) {
     checkouts(first: 1) {
       edges {

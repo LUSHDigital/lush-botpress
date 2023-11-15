@@ -43,3 +43,14 @@ export const getUserAndConversation = async (
     conversationId: conversation.id
   }
 }
+
+export function stripLastSlash (inputString: string): string {
+  // Check if the last character is a forward slash
+  if (inputString.endsWith('/')) {
+    // If so, remove it and return the modified string
+    return inputString.slice(0, -1)
+  } else {
+    // Otherwise, return the original string unchanged
+    return inputString
+  }
+}

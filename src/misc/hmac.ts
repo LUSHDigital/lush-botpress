@@ -1,10 +1,12 @@
 import type { Request } from '@botpress/sdk'
+import type { IntegrationLogger } from '@botpress/sdk/dist/integration/logger'
 import * as jose from 'jose'
 import { SALEOR_SIGNATURE_HEADER } from '../const'
+import { stripLastSlash } from './utils'
 
-export async function verifyWebhook (req: Request, saleorDomain: string): Promise<Boolean | Object> {
+export async function verifyWebhook (req: Request, saleorDomain: string, logger: IntegrationLogger): Promise<Boolean | Object> {
   const JWKS = jose.createRemoteJWKSet(
-    new URL(`${saleorDomain}/.well-known/jwks.json`)
+    new URL(`${stripLastSlash(saleorDomain)}/.well-known/jwks.json`)
   )
 
   try {
@@ -30,6 +32,8 @@ export async function verifyWebhook (req: Request, saleorDomain: string): Promis
       signature
     }, JWKS)
   } catch (e) {
+    logger.forBot().debug('e', e)
+
     return false
   }
 }

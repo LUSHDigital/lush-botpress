@@ -20,8 +20,9 @@ export const handler: IntegrationProps['handler'] = async ({ req, logger, client
     return
   }
   const { saleorDomain } = ctx.configuration
+  const isVerified = await verifyWebhook(req, saleorDomain, logger)
 
-  if (!(await verifyWebhook(req, saleorDomain))) {
+  if (isVerified === false) {
     logger.forBot().warn('Invalid webhook secret')
     return
   }
