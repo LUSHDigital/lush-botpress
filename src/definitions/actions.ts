@@ -7,6 +7,7 @@ const addToBasket = {
   description: 'Add one or more items to a basket',
   input: {
     schema: z.object({
+      userId: z.string().describe('The Auth0 ID of the user, ex: auth0|324234dfgfdg'),
       variantId: z.string().describe('The ID of the product variant, ex: UHJvZHVjdFZhcmlhbnQ6NDMxNA=='),
       quantity: z.string().describe('How many to add, ex: 1')
     }),
