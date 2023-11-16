@@ -11,7 +11,19 @@ const addToBasket = {
       variantId: z.string().describe('The ID of the product variant, ex: UHJvZHVjdFZhcmlhbnQ6NDMxNA=='),
       quantity: z.string().describe('How many to add, ex: 1')
     }),
-    ui: {}
+    ui: {
+      userId: {
+        title: 'User ID',
+        examples: ['auth0|32434dfsfds']
+      },
+      variantId: {
+        title: 'Saleor Variant ID',
+        examples: ['UHJvZHVjdFZhcmlhbnQ6MjY=']
+      },
+      quantity: {
+        title: 'Product quantity'
+      }
+    }
   },
   output: {
     schema: z.object({})

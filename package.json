@@ -1,7 +1,12 @@
 {
   "name": "lush",
   "scripts": {
-    "type:check": "tsc --noEmit"
+    "type:check": "tsc --noEmit",
+    "version": "bp --version",
+    "login": "bp login",
+    "dev": "bp dev",
+    "gen": "bp gen",
+    "deploy": "bp deploy -y"
   },
   "ts-standard": {
     "project": "./tsconfig.json"

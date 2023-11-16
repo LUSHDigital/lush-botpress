@@ -1,14 +1,16 @@
 import { request } from 'graphql-request'
 import query from './query'
 
+export interface Webhook {
+  id: string
+  isActive: boolean
+  name: string
+  targetUrl: string
+}
+
 interface App {
   app: {
-    webhooks: Array<{
-      id: string
-      isActive: boolean
-      name: string
-      targetUrl: string
-    }>
+    webhooks: Webhook[]
   }
 }
 

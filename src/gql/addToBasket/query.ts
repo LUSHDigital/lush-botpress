@@ -1,7 +1,7 @@
 import { gql } from 'graphql-request'
 
 export default gql`
-mutation addToBasket($lines: CheckoutLineInput!, $checkoutId: ID) {
+mutation addToBasket($lines: [CheckoutLineInput!]!, $checkoutId: ID) {
   checkoutLinesAdd(
     id: $checkoutId
     lines: $lines
