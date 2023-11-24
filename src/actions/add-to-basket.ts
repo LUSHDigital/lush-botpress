@@ -18,58 +18,70 @@ query getCustomerCheckout($userId: String) {
 `
 
 export const addToBasket: Implementation['actions']['addToBasket'] = async ({ input, logger, ctx }) => {
-  // TODO Call Saleor
-  logger.forBot().debug('input', input)
+  try {
+    logger.forBot().debug('input', input)
 
-  const { userId, variantId, quantity } = input
+    const { userId, variantId, quantity } = input
+    const { wyvernURL, token } = ctx.configuration
 
-  if (userId === undefined) {
-    logger.forBot().info('User ID is missing from input')
+    if (userId === undefined) {
+      logger.forBot().info('User ID is missing from input')
+      return {}
+    }
+
+    const userData = await request<Response>(wyvernURL, query, { userId }, {
+      authorization: `Bearer ${token}`
+    }).catch((error) => {
+      logger.forBot().error('userData error', error)
+    })
+
+    if (userData.user === null) {
+      logger.forBot().debug('userData error', wyvernURL, token)
+      logger.forBot().debug('userData error', JSON.stringify(userData))
+      throw new Error('Cannot find user in Saleor')
+    }
+
+    logger.forBot().debug('userData', JSON.stringify(userData))
+    const checkoutId = userData.user.checkouts.edges[0]?.node.id ?? ''
+    const lines = [{ quantity: Number(quantity), variantId }]
+    logger.forBot().debug('userData', checkoutId, JSON.stringify(lines))
+
+    const boop = await addToBasketRequest(checkoutId, lines, ctx.configuration.token, ctx.configuration.wyvernURL).catch((error) => {
+      logger.forBot().error('boop error', error)
+    })
+
+    // {
+    //   checkoutLinesAdd: {
+    //     checkout: {
+    //       lines: [{
+    //         id: 'Q2hlY2tvdXRMaW5lOmI2YTUyOTY0LWU0OWQtNDYzZi1hNjc5LTllZjU4MThjNTQzMA==',
+    //         variant: {
+    //           name: '10 / 65 / 65g / CITES: No / Weighted: No'
+    //         },
+    //         quantity: 1
+    //       },
+    //       {
+    //         id: 'Q2hlY2tvdXRMaW5lOmZiYzVmZTM1LTYzOWMtNGFhNy05ODgyLTcwMjk3NTA3ZWEwOA==',
+    //         variant: {
+    //           name: '1 / 500g'
+    //         },
+    //         quantity: 5
+    //       }],
+    //       totalPrice: {
+    //         gross: {
+    //           currency: 'GBP',
+    //           amount: 86.5
+    //         }
+    //       }
+    //     }
+    //   }
+    // }
+
+    logger.forBot().debug('boop', JSON.stringify(boop))
+
+    return {}
+  } catch (error) {
+    logger.forBot().error('general uncaught error', error)
     return {}
   }
-
-  const saleorData = await request<Response>(ctx.configuration.wyvernURL, query, { userId }, {
-    authorization: `Bearer ${ctx.configuration.token}`
-  }).catch((error) => {
-    logger.forBot().error('saleorData error', error)
-  })
-
-  const checkoutId = saleorData.user.checkouts.edges[0]?.node.id ?? ''
-  const lines = [{ quantity: Number(quantity), variantId }]
-  logger.forBot().debug('saleorData', checkoutId, JSON.stringify(lines))
-
-  const boop = await addToBasketRequest(checkoutId, lines, ctx.configuration.token, ctx.configuration.wyvernURL).catch((error) => {
-    logger.forBot().error('saleorData error', error)
-  })
-
-  // {
-  //   checkoutLinesAdd: {
-  //     checkout: {
-  //       lines: [{
-  //         id: 'Q2hlY2tvdXRMaW5lOmI2YTUyOTY0LWU0OWQtNDYzZi1hNjc5LTllZjU4MThjNTQzMA==',
-  //         variant: {
-  //           name: '10 / 65 / 65g / CITES: No / Weighted: No'
-  //         },
-  //         quantity: 1
-  //       },
-  //       {
-  //         id: 'Q2hlY2tvdXRMaW5lOmZiYzVmZTM1LTYzOWMtNGFhNy05ODgyLTcwMjk3NTA3ZWEwOA==',
-  //         variant: {
-  //           name: '1 / 500g'
-  //         },
-  //         quantity: 5
-  //       }],
-  //       totalPrice: {
-  //         gross: {
-  //           currency: 'GBP',
-  //           amount: 86.5
-  //         }
-  //       }
-  //     }
-  //   }
-  // }
-
-  logger.forBot().debug('boop', JSON.stringify(boop))
-
-  return {}
 }

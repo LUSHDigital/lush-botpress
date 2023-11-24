@@ -6,7 +6,7 @@ import type { Configuration } from '.botpress/implementation/configuration'
 import app, { Webhook } from 'src/gql/app'
 import createWebhook from 'src/gql/createWebhook'
 import deleteWebhook from 'src/gql/deleteWebhook'
-import { Checkout, Product } from './types'
+import type { Product } from './types'
 import { getUserAndConversation } from './utils'
 import { BUILD_VERSION } from 'src/const'
 
@@ -117,19 +117,33 @@ export async function handleCheckoutUpdated ({ event, client, logger }: checkout
   logger.forBot().info('Received checkout updated event')
   logger.forBot().debug(`checkout updated event ~> ${JSON.stringify(event)}`)
 
+  const x = await client.createMessage({
+    type: 'text',
+    tags: { id: event.checkout.user.externalReference },
+    payload: {
+      text: 'Your basket has been updated from integration'
+    },
+    conversationId: event.checkout.conversationId,
+    userId: event.checkout.conversationUser
+  }).catch((error) => {
+    logger.forBot().error(`checkout updated createMessage ~> ${JSON.stringify(error)}`)
+  })
+  logger.forBot().debug('handleCheckoutUpdated createEvent', x)
+  logger.forBot().debug('handleCheckoutUpdated createEvent stringed', JSON.stringify(x))
+
   const y = await client.createEvent({
     type: 'basketUpdated',
     payload: {
+      id: '94375905845',
       checkout: event.checkout
     },
-    ...(await getUserAndConversation({
-      userId: event.checkout.user.externalReference,
-      channelId: 'channel',
-      channel: 'channel'
-    }, client, logger))
+    conversationId: event.checkout.conversationId,
+    userId: event.checkout.conversationUser
+  }).catch((error) => {
+    logger.forBot().error(`checkout updated createEvent ~> ${JSON.stringify(error)}`)
   })
-  logger.forBot().debug('handleCheckoutCreated', y)
-  logger.forBot().debug('handleCheckoutCreated stringed', JSON.stringify(y))
+  logger.forBot().debug('handleCheckoutUpdated createEvent', y)
+  logger.forBot().debug('handleCheckoutUpdated createEvent stringed', JSON.stringify(y))
 }
 
 export async function handleCheckoutPaid ({ event, client }: checkoutHandlerArgs): Promise<Void> {

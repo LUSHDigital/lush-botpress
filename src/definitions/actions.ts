@@ -78,7 +78,12 @@ const upsertShippingAddress = {
   description: 'Update or create new shipping address',
   input: {
     schema: z.object({
-      address: z.string().describe('The address of the customer')
+      userId: z.string().describe('The Auth0 ID of the user, ex: auth0|324234dfgfdg'),
+      city: z.string().optional(),
+      country: z.string().optional(),
+      number: z.string().optional(),
+      street: z.string().optional(),
+      zip: z.string().optional()
     }),
     ui: {}
   },
@@ -92,7 +97,12 @@ const upsertBillingAddress = {
   description: 'Update or create new billing address',
   input: {
     schema: z.object({
-      address: z.string().describe('The address of the customer')
+      userId: z.string().describe('The Auth0 ID of the user, ex: auth0|324234dfgfdg'),
+      city: z.string().optional(),
+      country: z.string().optional(),
+      number: z.string().optional(),
+      street: z.string().optional(),
+      zip: z.string().optional()
     }),
     ui: {}
   },

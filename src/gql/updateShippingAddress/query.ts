@@ -17,7 +17,9 @@ mutation updateShippingAddress($checkoutId: ID, $shippingAddress: AddressInput!)
         streetAddress2
         city
         postalCode
-        country
+        country {
+          code
+        }
       }
     }
   }

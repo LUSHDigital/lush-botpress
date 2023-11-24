@@ -17,7 +17,9 @@ mutation updateBillingAddress($checkoutId: ID, $billingAddress: AddressInput!) {
         streetAddress2
         city
         postalCode
-        country
+        country {
+          code
+        }
       }
     }
   }
