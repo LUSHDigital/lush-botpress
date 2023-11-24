@@ -111,8 +111,32 @@ const upsertBillingAddress = {
   }
 }
 
+const addUserToCheckout = {
+  title: 'Associate a conversation with a checkout',
+  description: 'Creates a link between this conversation and a Saleor checkout',
+  input: {
+    schema: z.object({
+      conversationId: z.string().describe('The Botpress conversation ID'),
+      userId: z.string().describe('The Botpress ID of the person')
+    }),
+    ui: {
+      conversationId: {
+        title: 'Conversation ID',
+        examples: ['event.conversationId']
+      },
+      userId: {
+        title: 'User ID'
+      }
+    }
+  },
+  output: {
+    schema: z.object({})
+  }
+}
+
 export const actions = {
   addToBasket,
+  addUserToCheckout,
   getCustomerOrders,
   removeFromBasket,
   updateQuantity,
