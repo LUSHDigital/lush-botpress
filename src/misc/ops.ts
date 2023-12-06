@@ -8,7 +8,6 @@ import createWebhook from 'src/gql/createWebhook'
 import deleteWebhook from 'src/gql/deleteWebhook'
 import type { Product } from './types'
 import { getUserAndConversation } from './utils'
-import { BUILD_VERSION } from 'src/const'
 
 export async function createOrGetWebhook (url: string, token: string, wyvernURL: string): Promise<Webhook> {
   const data = await app(token, wyvernURL)
@@ -55,31 +54,8 @@ interface productHandlerArgs {
   client: Client
 }
 
-const x = {
-  __typename: 'CheckoutUpdated',
-  checkout: {
-    user: { externalReference: 'auth0|635a3bcbefb61e27d633fc40' },
-    lines: [{
-      quantity: 1,
-      variant: { name: '10 / 65 / 65g / CITES: No / Weighted: No', product: { name: 'Tranquil' } },
-      totalPrice: { gross: { amount: 4, currency: 'GBP' } }
-    },
-    {
-      quantity: 9,
-      variant: { name: '1 / 500g', product: { name: "Ro's Argan" } },
-      totalPrice: { gross: { amount: 148.5, currency: 'GBP' } }
-    }, {
-      quantity: 2,
-      variant: { name: '12 / 45g', product: { name: 'Dream Cream' } },
-      totalPrice: { gross: { amount: 5.5, currency: 'GBP' } }
-    }],
-    totalPrice: { gross: { amount: 158, currency: 'GBP' } }
-  },
-  errors: [{ message: 'You need one of the following permissions: MANAGE_USERS, OWNER', locations: [{ line: 18, column: 9 }], path: ['event', 'checkout', 'user'], extensions: { exception: { code: 'PermissionDenied' } } }]
-}
-
 interface checkoutHandlerArgs {
-  event: typeof x
+  event: any
   client: Client
   ctx: IntegrationContext<Configuration>
   logger: IntegrationLogger
@@ -113,13 +89,12 @@ export async function handleCheckoutCreated ({ event, client, logger }: checkout
 }
 
 export async function handleCheckoutUpdated ({ event, client, logger }: checkoutHandlerArgs): Promise<void> {
-  logger.forBot().info('Version: ' + BUILD_VERSION)
-  logger.forBot().info('Received checkout updated event')
-  logger.forBot().debug(`checkout updated event ~> ${JSON.stringify(event)}`)
+  logger.forBot().debug('event.checkout', JSON.stringify(event.checkout, null, 2))
 
   const x = await client.createMessage({
     type: 'text',
-    tags: { id: event.checkout.user.externalReference },
+    // tags: { userId: event.checkout.user.externalReference },
+    tags: { id: event.checkout.conversationUser + Math.random() },
     payload: {
       text: 'Your basket has been updated from integration'
     },
@@ -128,22 +103,20 @@ export async function handleCheckoutUpdated ({ event, client, logger }: checkout
   }).catch((error) => {
     logger.forBot().error(`checkout updated createMessage ~> ${JSON.stringify(error)}`)
   })
-  logger.forBot().debug('handleCheckoutUpdated createEvent', x)
-  logger.forBot().debug('handleCheckoutUpdated createEvent stringed', JSON.stringify(x))
 
-  const y = await client.createEvent({
-    type: 'basketUpdated',
-    payload: {
-      id: '94375905845',
-      checkout: event.checkout
-    },
-    conversationId: event.checkout.conversationId,
-    userId: event.checkout.conversationUser
-  }).catch((error) => {
-    logger.forBot().error(`checkout updated createEvent ~> ${JSON.stringify(error)}`)
-  })
-  logger.forBot().debug('handleCheckoutUpdated createEvent', y)
-  logger.forBot().debug('handleCheckoutUpdated createEvent stringed', JSON.stringify(y))
+  // const y = await client.createEvent({
+  //   type: 'basketUpdated',
+  //   payload: {
+  //     id: '94375905845',
+  //     checkout: event.checkout
+  //   },
+  //   conversationId: event.checkout.conversationId,
+  //   userId: event.checkout.conversationUser
+  // }).catch((error) => {
+  //   logger.forBot().error(`checkout updated createEvent ~> ${JSON.stringify(error)}`)
+  // })
+  // logger.forBot().debug('handleCheckoutUpdated createEvent', y)
+  // logger.forBot().debug('handleCheckoutUpdated createEvent stringed', JSON.stringify(y))
 }
 
 export async function handleCheckoutPaid ({ event, client }: checkoutHandlerArgs): Promise<Void> {
