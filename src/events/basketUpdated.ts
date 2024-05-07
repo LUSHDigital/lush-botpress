@@ -1,6 +1,6 @@
+import type { Request } from '@botpress/sdk'
 import * as botpress from '.botpress'
-import { Request } from '@botpress/sdk'
-import { checkoutSchema } from 'src/schemas/saleor'
+import { basketUpdatedSchema } from 'src/schemas'
 
 type Implementation = ConstructorParameters<typeof botpress.Integration>[0]
 type RegisterFunction = Implementation['handler']
@@ -35,7 +35,7 @@ export const fireBasketUpdated = async ({
     fullBody: req
   }
 
-  const parsedObject = checkoutSchema.parse(payload)
+  const parsedObject = basketUpdatedSchema.parse(payload)
 
   logger.forBot().info(`Recieved an order created event for ${saleorEvent.id}`)
 

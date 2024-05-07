@@ -18,7 +18,7 @@ query getCustomerCheckout($userId: String) {
 
 export const upsertBillingAddress: Implementation['actions']['upsertBillingAddress'] = async ({ input, logger, ctx }) => {
   try {
-    logger.forBot().debug('input', input)
+    logger.forBot().debug('upsertBillingAddress[input]', input)
 
     const { city, country, street, number, zip, userId } = input
     const { wyvernURL, token } = ctx.configuration
@@ -35,6 +35,7 @@ export const upsertBillingAddress: Implementation['actions']['upsertBillingAddre
     })
 
     if (userData.user === null) {
+      logger.forBot().debug('userData userId', userId)
       logger.forBot().debug('userData error', wyvernURL, token)
       logger.forBot().debug('userData error', JSON.stringify(userData))
       throw new Error('Cannot find user in Saleor')

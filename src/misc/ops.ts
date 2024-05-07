@@ -2,11 +2,11 @@ import type { Client } from '.botpress'
 import type { IntegrationLogger } from '@botpress/sdk/dist/integration/logger'
 import type { IntegrationContext } from '@botpress/sdk'
 import type { Configuration } from '.botpress/implementation/configuration'
+import type { Product } from './types'
 
-import app, { Webhook } from 'src/gql/app'
+import app, { type Webhook } from 'src/gql/app'
 import createWebhook from 'src/gql/createWebhook'
 import deleteWebhook from 'src/gql/deleteWebhook'
-import type { Product } from './types'
 import { getUserAndConversation } from './utils'
 
 export async function createOrGetWebhook (url: string, token: string, wyvernURL: string): Promise<Webhook> {
@@ -21,7 +21,7 @@ export async function createOrGetWebhook (url: string, token: string, wyvernURL:
   }
 
   // New url, new hook.
-  return await createWebhook(wyvernURL, {
+  const { webhook } = await createWebhook(wyvernURL, {
     input: {
       asyncEvents: ['ANY_EVENTS'],
       isActive: true,
@@ -29,6 +29,7 @@ export async function createOrGetWebhook (url: string, token: string, wyvernURL:
       targetUrl: url
     }
   }, token)
+  return webhook
 }
 
 export async function removeWebhook (url: string, token: string, wyvernURL: string): Promise<void> {
@@ -89,7 +90,7 @@ export async function handleCheckoutCreated ({ event, client, logger }: checkout
 }
 
 export async function handleCheckoutUpdated ({ event, client, logger }: checkoutHandlerArgs): Promise<void> {
-  logger.forBot().debug('event.checkout', JSON.stringify(event.checkout, null, 2))
+  logger.forBot().debug('handleCheckoutUpdated[event.checkout]', JSON.stringify(event.checkout, null, 2))
 
   const x = await client.createMessage({
     type: 'text',
@@ -101,8 +102,10 @@ export async function handleCheckoutUpdated ({ event, client, logger }: checkout
     conversationId: event.checkout.conversationId,
     userId: event.checkout.conversationUser
   }).catch((error) => {
-    logger.forBot().error(`checkout updated createMessage ~> ${JSON.stringify(error)}`)
+    logger.forBot().error(`handleCheckoutUpdated[createMessage[catch]] ~> ${JSON.stringify(error)}`)
   })
+
+  logger.forBot().debug('handleCheckoutUpdated[x] ~>', x)
 
   // const y = await client.createEvent({
   //   type: 'basketUpdated',
@@ -119,6 +122,6 @@ export async function handleCheckoutUpdated ({ event, client, logger }: checkout
   // logger.forBot().debug('handleCheckoutUpdated createEvent stringed', JSON.stringify(y))
 }
 
-export async function handleCheckoutPaid ({ event, client }: checkoutHandlerArgs): Promise<Void> {
+export async function handleCheckoutPaid ({ event, client }: checkoutHandlerArgs): Promise<void> {
   console.log('Not implemented', event)
 }

@@ -1,4 +1,3 @@
-import { IntegrationDefinitionProps } from '@botpress/sdk'
 import {
   basketUpdatedSchema,
   checkoutPaidSchema,
@@ -34,4 +33,4 @@ export const events = {
   checkoutUpdated,
   productCreated,
   productUpdated
-} satisfies IntegrationDefinitionProps['events']
+}

@@ -1,4 +1,4 @@
-import type { Channels } from './misc/types'
+import type { BpChannels } from './misc/types'
 
 class NotImplementedError extends Error {
   constructor () {
@@ -6,15 +6,7 @@ class NotImplementedError extends Error {
   }
 }
 
-export const channels: Channels = {
-  basket: {
-    messages: {
-      text: async (args: unknown) => {
-        console.log('src/channels basket -> text', args)
-        throw new NotImplementedError()
-      }
-    }
-  },
+export const channels: BpChannels = {
   channel: {
     messages: {
       text: async (args: unknown) => {

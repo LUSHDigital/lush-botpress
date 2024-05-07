@@ -1,4 +1,3 @@
-import { IntegrationDefinitionProps } from '@botpress/sdk'
 import { messages } from './messages'
 
 export const channels = {
@@ -15,4 +14,4 @@ export const channels = {
       }
     }
   }
-} satisfies IntegrationDefinitionProps['channels']
+}

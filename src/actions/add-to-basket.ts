@@ -19,7 +19,7 @@ query getCustomerCheckout($userId: String) {
 
 export const addToBasket: Implementation['actions']['addToBasket'] = async ({ input, logger, ctx }) => {
   try {
-    logger.forBot().debug('input', input)
+    logger.forBot().debug('addToBasket[input]', input)
 
     const { userId, variantId, quantity } = input
     const { wyvernURL, token } = ctx.configuration
@@ -36,6 +36,7 @@ export const addToBasket: Implementation['actions']['addToBasket'] = async ({ in
     })
 
     if (userData.user === null) {
+      logger.forBot().debug('userData userId', userId)
       logger.forBot().debug('userData error', wyvernURL, token)
       logger.forBot().debug('userData error', JSON.stringify(userData))
       throw new Error('Cannot find user in Saleor')

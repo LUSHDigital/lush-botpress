@@ -1,8 +1,8 @@
 import type { Conversation } from '@botpress/client'
-import type { AckFunction } from '@botpress/sdk'
+import type { IntegrationLogger } from '@botpress/sdk/dist/integration/logger'
+import type { AckFunction, Client } from './types'
+
 import { INTEGRATION_NAME } from '../const'
-import type { Client } from '.botpress'
-import { IntegrationLogger } from '@botpress/sdk/dist/integration/logger'
 
 export const getTag = (tags: Record<string, string>, name: string): string | undefined => {
   return tags[`${INTEGRATION_NAME}:${name}`]
@@ -36,7 +36,7 @@ export const getUserAndConversation = async (
   logger.forBot().debug('getUserAndConversation', { userId, channelId, channel })
   const { conversation } = await client.getOrCreateConversation({
     channel: 'channel',
-    tags: { number: channelId.toString() }
+    tags: { id: channelId.toString() }
   })
   logger.forBot().debug('getUserAndConversation', { conversation })
 

@@ -33,7 +33,7 @@ mutation updateShippingAddress($shippingAddress: AddressInput!, $validationRules
 
 export const upsertShippingAddress: Implementation['actions']['upsertShippingAddress'] = async ({ input, logger, ctx }) => {
   try {
-    logger.forBot().debug('input', input)
+    logger.forBot().debug('upsertShippingAddress[input]', input)
 
     const { city, country, street, number, zip, userId } = input
     const { wyvernURL, token } = ctx.configuration
@@ -50,6 +50,7 @@ export const upsertShippingAddress: Implementation['actions']['upsertShippingAdd
     })
 
     if (userData.user === null) {
+      logger.forBot().debug('userData userId', userId)
       logger.forBot().debug('userData error', wyvernURL, token)
       logger.forBot().debug('userData error', JSON.stringify(userData))
       throw new Error('Cannot find user in Saleor')

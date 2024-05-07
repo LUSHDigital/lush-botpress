@@ -1,15 +1,35 @@
-import type { IntegrationContext } from '@botpress/sdk'
-import type * as botpress from '.botpress'
-import type { Configuration } from '.botpress/implementation/configuration'
+import * as sdk from '@botpress/sdk'
+import * as bp from '.botpress'
 
-export type Config = botpress.configuration.Configuration
-export type Implementation = ConstructorParameters<typeof botpress.Integration>[0]
-export type IntegrationCtx = IntegrationContext<Configuration>
+export type ValueOf<T> = T[keyof T]
+export type Merge<A, B> = Omit<A, keyof B> & B
 
+export type Handler = bp.IntegrationProps['handler']
+export type HandlerProps = Parameters<Handler>[0]
+export type IntegrationCtx = HandlerProps['ctx']
+export type Logger = HandlerProps['logger']
+export type Implementation = ConstructorParameters<typeof bp.Integration>[0]
+
+export type Client = bp.Client
+export type Conversation = Awaited<ReturnType<Client['getConversation']>>['conversation']
+export type Message = Awaited<ReturnType<Client['getMessage']>>['message']
+export type BpUser = Awaited<ReturnType<Client['getUser']>>['user']
+export type Event = Awaited<ReturnType<bp.Client['getEvent']>>['event']
+
+export type EventDefinition = NonNullable<sdk.IntegrationDefinitionProps['events']>[string]
+export type ActionDefinition = NonNullable<sdk.IntegrationDefinitionProps['actions']>[string]
+export type ChannelDefinition = NonNullable<sdk.IntegrationDefinitionProps['channels']>[string]
+
+export type Action = ValueOf<bp.IntegrationProps['actions']>
+export type ActionProps = Parameters<Action>[0]
+
+export type BpChannel = ValueOf<bp.IntegrationProps['channels']>
+export type BpChannels = bp.IntegrationProps['channels']
 export type RegisterFunction = Implementation['register']
 export type UnregisterFunction = Implementation['unregister']
-export type Channels = Implementation['channels']
-export type Handler = Implementation['handler']
+export type MessageHandler = ValueOf<BpChannel['messages']>
+export type MessageHandlerProps = Parameters<MessageHandler>[0]
+export type AckFunction = MessageHandlerProps['ack']
 
 // Auto-generated Saleor types
 

@@ -1,4 +1,4 @@
-import { z } from 'zod'
+import { z } from '@botpress/sdk'
 
 const NonEmptyString = z.string().min(1)
 

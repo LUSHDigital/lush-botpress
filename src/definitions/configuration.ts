@@ -1,5 +1,4 @@
-import type { IntegrationDefinitionProps } from '@botpress/sdk'
-import { z } from 'zod'
+import { z } from '@botpress/sdk'
 
 export const configuration = {
   schema: z.object({
@@ -7,4 +6,4 @@ export const configuration = {
     wyvernURL: z.string(),
     saleorDomain: z.string()
   })
-} satisfies IntegrationDefinitionProps['configuration']
+}

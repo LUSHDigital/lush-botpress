@@ -1,6 +1,4 @@
-import type { IntegrationDefinitionProps } from '@botpress/sdk'
-
-import { z } from 'zod'
+import { z } from '@botpress/sdk'
 
 const addToBasket = {
   title: 'Add to basket',
@@ -142,4 +140,4 @@ export const actions = {
   updateQuantity,
   upsertBillingAddress,
   upsertShippingAddress
-} satisfies IntegrationDefinitionProps['actions']
+}

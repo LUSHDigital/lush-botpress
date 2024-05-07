@@ -52,3 +52,6 @@ While developing with `bp dev` it generates a bunch of internal files in the .bo
 
 `bp dev` does some clever stuff, it essentially acts like `ngrok` or `wrangler tail` by tunneling and forwarding requests from a public endpoint to your computer.
 
+## TODO
+
+Look at https://github.com/ptrckbp/botpressapi for recent API changes.

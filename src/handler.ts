@@ -27,7 +27,7 @@ export const handler: IntegrationProps['handler'] = async ({ req, logger, client
   //   return
   // }
 
-  const event = JSON.parse(body)
+  const event = JSON.parse(body!)
 
   switch (eventName) {
     case 'product_created':
@@ -37,11 +37,11 @@ export const handler: IntegrationProps['handler'] = async ({ req, logger, client
     case 'product_variant_updated':
       return await handleProductUpdated({ event, client })
     case 'checkout_created':
-      return await handleCheckoutCreated({ event, client })
+      return await handleCheckoutCreated({ event, ctx, logger, client })
     case 'checkout_updated':
-      return await handleCheckoutUpdated({ event, client, logger })
+      return await handleCheckoutUpdated({ event, ctx, client, logger })
     case 'checkout_fully_paid':
-      return await handleCheckoutPaid({ event, client })
+      return await handleCheckoutPaid({ event, ctx, client, logger })
     default:
       logger.forBot().warn(`No handler for ${eventName}`)
   }

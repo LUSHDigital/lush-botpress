@@ -1,7 +1,7 @@
 import { IntegrationDefinition } from '@botpress/sdk'
 import {
   actions, channels, events,
-  configuration, states, user
+  configuration, user
 } from './src/definitions'
 import { INTEGRATION_NAME } from './src/const'
 
@@ -12,9 +12,8 @@ export default new IntegrationDefinition({
   configuration,
   description: 'Allows two-way communication between the Lush Digital Estate and Botpress.',
   icon: 'icon.svg',
-  // readme: 'hub.md',
-  states,
+  readme: 'hub.md',
   user,
   name: INTEGRATION_NAME,
-  version: '0.0.1'
+  version: '0.0.1',
 })

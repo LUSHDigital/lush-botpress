@@ -1,4 +1,3 @@
-import type { IntegrationProps } from '.botpress'
 import { addToBasket } from './add-to-basket'
 import { addUserToCheckout } from './add-user-checkout'
 import { upsertShippingAddress } from './upsert-shipping-address'
@@ -8,5 +7,8 @@ export default {
   addToBasket,
   addUserToCheckout,
   upsertShippingAddress,
-  upsertBillingAddress
-} satisfies IntegrationProps['actions']
+  upsertBillingAddress,
+  getCustomerOrders: async () => ({}),
+  removeFromBasket: async () => ({}),
+  updateQuantity: async () => ({}),
+}
