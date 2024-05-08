@@ -8,7 +8,7 @@ interface Response {
   }>
 }
 
-type CheckoutLineInput = Array<{
+export type CheckoutLineInput = Array<{
   quantity: number
   variantId: string
   price?: number

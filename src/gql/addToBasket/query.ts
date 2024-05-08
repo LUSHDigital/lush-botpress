@@ -6,6 +6,11 @@ mutation addToBasket($lines: [CheckoutLineInput!]!, $checkoutId: ID) {
     id: $checkoutId
     lines: $lines
   ) {
+    errors {
+      field
+      message
+      code
+    }
     checkout {
       lines {
         id

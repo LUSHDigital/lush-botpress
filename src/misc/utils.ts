@@ -28,7 +28,7 @@ interface UserConversation {
 }
 
 export const getUserAndConversation = async (
-  props: { userId: string | number, channelId: string | number, channel: string },
+  props: { userId: string, channelId: string | number, channel: string },
   client: Client,
   logger: IntegrationLogger
 ): Promise<UserConversation> => {
@@ -36,13 +36,17 @@ export const getUserAndConversation = async (
   logger.forBot().debug('getUserAndConversation', { userId, channelId, channel })
   const { conversation } = await client.getOrCreateConversation({
     channel: 'channel',
-    tags: { id: channelId.toString() }
+    tags: { id: userId }
   })
   logger.forBot().debug('getUserAndConversation', { conversation })
 
-  const { user } = await client.getOrCreateUser({ tags: { id: props.userId.toString() } })
+  const { user } = await client.getOrCreateUser({
+     tags: { 
+      id: props.userId 
+    } 
+  })
 
-  logger.forBot().debug('user', { user })
+  logger.forBot().debug('user', user)
   return {
     userId: user.id,
     conversationId: conversation.id

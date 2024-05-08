@@ -1,40 +1,24 @@
-import { gql, request } from 'graphql-request'
 import type { Implementation } from '../misc/types'
 import updateCheckoutMetadataRequest from '../gql/updateCheckoutMetadata'
-
-const query = gql`
-query getCustomerCheckout($userId: String) {
-  user(externalReference: $userId) {
-    checkouts(first: 1) {
-      edges {
-        node {
-          id
-        }
-      }
-    }
-  }
-}
-`
+import user from 'src/gql/user'
+import createCheckoutRequest, { type CheckoutCreateInput } from 'src/gql/createCheckout'
+import attachCheckoutRequest from 'src/gql/attachCheckout'
 
 export const addUserToCheckout: Implementation['actions']['addUserToCheckout'] = async ({ input, logger, ctx }) => {
   try {
     logger.forBot().debug('addUserToCheckout[input]', input)
 
-    const { userId, conversationId } = input
+    const { userId, conversationId, botpressUserid } = input
     const { wyvernURL, token } = ctx.configuration
 
-    if (userId === undefined) {
+    if (!userId) {
       logger.forBot().info('User ID is missing from input')
       return {}
     }
 
-    const userData = await request<Response>(wyvernURL, query, { userId }, {
-      authorization: `Bearer ${token}`
-    }).catch((error) => {
-      logger.forBot().error('userData error', error)
-    })
+    const userData = await user(userId, token, wyvernURL);
 
-    if (userData.user === null) {
+    if (!userData.user) {
       logger.forBot().debug('userData userId', userId)
       logger.forBot().debug('userData error', wyvernURL, token)
       logger.forBot().debug('userData error', JSON.stringify(userData))
@@ -42,22 +26,51 @@ export const addUserToCheckout: Implementation['actions']['addUserToCheckout'] =
     }
 
     logger.forBot().debug('userData', JSON.stringify(userData))
-    const checkoutId = userData.user.checkouts.edges[0]?.node.id ?? ''
+    let checkoutId = userData.user?.checkouts?.edges?.[0]?.node?.id
+
+    if (!checkoutId) {
+      // Create checkout in Saleor.
+      const input: CheckoutCreateInput = {
+        lines: [],
+        channel: 'uk', // TODO replace this
+        email: userData.user.email
+      }
+      const createCheckoutResponse = await createCheckoutRequest(input, token, wyvernURL).catch((error) => {
+        logger.forBot().error('createCheckoutResponse error', error)
+      })
+      logger.forBot().debug('createCheckoutResponse', JSON.stringify(createCheckoutResponse))
+
+      checkoutId = createCheckoutResponse?.checkoutCreate?.checkout?.id || ''
+
+      // Attach to user.
+      const payload = {
+        checkoutId,
+        customerId: userData.user.id
+      }
+
+      logger.forBot().debug('attachCheckoutResponse payload', payload)
+
+      const attachCheckoutResponse = await attachCheckoutRequest(payload, token, wyvernURL).catch((error) => {
+        logger.forBot().error('attachCheckoutResponse error', error)
+      })
+      logger.forBot().debug('attachCheckoutResponse', JSON.stringify(attachCheckoutResponse))
+    }
+
     const metadata = [{
       key: 'botpressConversationId',
       value: conversationId
     }, {
       key: 'botpressUserId',
-      value: userId
+      value: botpressUserid
     }]
 
     logger.forBot().debug('userData', checkoutId, metadata)
 
-    const boop = await updateCheckoutMetadataRequest(checkoutId, metadata, ctx.configuration.token, ctx.configuration.wyvernURL).catch((error) => {
-      logger.forBot().error('boop error', error)
+    const updateCheckoutMetadataResponse = await updateCheckoutMetadataRequest(checkoutId, metadata, ctx.configuration.token, ctx.configuration.wyvernURL).catch((error) => {
+      logger.forBot().error('updateCheckoutMetadataResponse error', error)
     })
 
-    logger.forBot().debug('boop', JSON.stringify(boop))
+    logger.forBot().debug('updateCheckoutMetadataResponse', JSON.stringify(updateCheckoutMetadataResponse))
 
     return {}
   } catch (error) {

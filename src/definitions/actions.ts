@@ -115,15 +115,21 @@ const addUserToCheckout = {
   input: {
     schema: z.object({
       conversationId: z.string().describe('The Botpress conversation ID'),
-      userId: z.string().describe('The Botpress ID of the person')
+      botpressUserid: z.string().describe('The Botpress ID of the person'),
+      userId: z.string().describe('The Auth0 User ID of the person')
     }),
     ui: {
       conversationId: {
         title: 'Conversation ID',
         examples: ['event.conversationId']
       },
+      botpressUserid: {
+        title: 'Botpress User ID',
+        examples: ['event.userId']
+      },
       userId: {
-        title: 'User ID'
+        title: 'Lush User ID',
+        examples: ['auth0|324234dfgfdg']
       }
     }
   },

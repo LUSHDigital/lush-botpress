@@ -7,7 +7,7 @@ import type { Product } from './types'
 import app, { type Webhook } from 'src/gql/app'
 import createWebhook from 'src/gql/createWebhook'
 import deleteWebhook from 'src/gql/deleteWebhook'
-import { getUserAndConversation } from './utils'
+// import { getUserAndConversation } from './utils'
 
 export async function createOrGetWebhook (url: string, token: string, wyvernURL: string): Promise<Webhook> {
   const data = await app(token, wyvernURL)
@@ -70,37 +70,24 @@ export async function handleProductUpdated ({ event, client }: productHandlerArg
 }
 export async function handleCheckoutCreated ({ event, client, logger }: checkoutHandlerArgs): Promise<void> {
   console.log('Not implemented', event)
-  const basket = event[0]
-  if (basket == null) {
-    return
-  }
-  const y = await client.createEvent({
-    type: 'basketUpdated',
-    payload: {
-      id: basket.id,
-      lines: basket.lines
-    },
-    ...(await getUserAndConversation({
-      userId: basket.metadata.user_id || '',
-      channelId: basket.id,
-      channel: 'channel'
-    }, client, logger))
-  })
-  console.log('handleCheckoutCreated', y)
 }
 
 export async function handleCheckoutUpdated ({ event, client, logger }: checkoutHandlerArgs): Promise<void> {
-  logger.forBot().debug('handleCheckoutUpdated[event.checkout]', JSON.stringify(event.checkout, null, 2))
+  if (!event.checkout.botpressConversationId) {
+    return
+  }
+
+  logger.forBot().debug('handleCheckoutUpdated[event]', JSON.stringify(event, null, 2))
 
   const x = await client.createMessage({
     type: 'text',
-    // tags: { userId: event.checkout.user.externalReference },
-    tags: { id: event.checkout.conversationUser + Math.random() },
+    tags: { id: event.checkout.user.externalReference },
+    // tags: { id: event.checkout.botpressConversationId },
     payload: {
       text: 'Your basket has been updated from integration'
     },
-    conversationId: event.checkout.conversationId,
-    userId: event.checkout.conversationUser
+    conversationId: event.checkout.botpressConversationId,
+    userId: event.checkout.botpressUserId
   }).catch((error) => {
     logger.forBot().error(`handleCheckoutUpdated[createMessage[catch]] ~> ${JSON.stringify(error)}`)
   })
