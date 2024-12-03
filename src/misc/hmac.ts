@@ -1,5 +1,4 @@
-import type { Request } from '@botpress/sdk'
-import type { IntegrationLogger } from '@botpress/sdk/dist/integration/logger'
+import type { Request, IntegrationLogger } from '@botpress/sdk'
 import * as jose from 'jose'
 import { SALEOR_SIGNATURE_HEADER } from '../const'
 import { stripLastSlash } from './utils'

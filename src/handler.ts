@@ -31,11 +31,11 @@ export const handler: IntegrationProps['handler'] = async ({ req, logger, client
 
   switch (eventName) {
     case 'product_created':
-      return await handleProductCreated({ event, client })
+      return await handleProductCreated({ event, client, logger })
     case 'product_updated':
-      return await handleProductUpdated({ event, client })
+      return await handleProductUpdated({ event, client, logger })
     case 'product_variant_updated':
-      return await handleProductUpdated({ event, client })
+      return await handleProductUpdated({ event, client, logger })
     case 'checkout_created':
       return await handleCheckoutCreated({ event, ctx, logger, client })
     case 'checkout_updated':

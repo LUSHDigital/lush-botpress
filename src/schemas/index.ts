@@ -28,7 +28,34 @@ export const productCreatedSchema = z.object({
 })
 export const productUpdatedSchema = z.object({
   type: z.literal(`${INTEGRATION_NAME}:productUpdated`).optional(),
-  id: z.string()
+  product: z.object({
+    commerce_id: z.string(),
+    name: z.string(),
+    type: z.string(),
+  }),
+  variants: z.array(z.object({
+    commerce_id: z.string(),
+    name: z.string(),
+    available_channels: z.array(z.string()),
+    discontinued_in: z.array(z.string()),
+    unavailable_in: z.array(z.string()),
+    price_uk: z.string().optional(),
+    price_nl: z.string().optional(),
+    price_at: z.string().optional(),
+    price_ca: z.string().optional(),
+    price_cz: z.string().optional(),
+    price_de: z.string().optional(),
+    price_es: z.string().optional(),
+    price_fr: z.string().optional(),
+    price_hk: z.string().optional(),
+    price_ie: z.string().optional(),
+    price_it: z.string().optional(),
+    price_jp: z.string().optional(),
+    price_mena: z.string().optional(),
+    price_nz: z.string().optional(),
+    price_pl: z.string().optional(),
+    price_us: z.string().optional(),
+  }))
 })
 
 export type basketUpdated = z.infer<typeof basketUpdatedSchema>

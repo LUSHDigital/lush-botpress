@@ -163,23 +163,57 @@ export interface User {
   last_name: string
 }
 
+export interface VariantAttribute {
+  attribute: {
+    id: string;
+    inputType: InputType;
+    name: string;
+    slug: string;
+  }
+  values: {
+    id: string;
+    plainText: string;
+    value: string;
+    slug: string;
+    name: string;
+  }[]
+}
+
 export interface Product {
-  type: string
-  id: ID
-  category: Channel
-  collections: Channel[]
-  meta: Meta
-  attributes: Attribute[]
-  media: Media[]
-  charge_taxes: boolean
-  channel_listings: ProductChannelListing[]
-  variants: Variant[]
-  private_metadata: PrivateMetadataClass
-  metadata: FluffyMetadata
-  name: string
-  description: Description
-  updated_at: Date
-  weight: null
+  [key: string]: {
+    type: { values: { name: string }[] };
+    id: string;
+    name: string;
+    variants: {
+      id: string;
+      name: string;
+      attributes: VariantAttribute[];
+      pricing: {
+        price: {
+          gross: {
+            currency: string;
+            amount: number;
+          };
+        };
+      };
+    }[];
+  };
+}
+
+export interface TransformedVariant {
+  commerce_id: string;
+  name: string;
+  available_channels: string[];
+  discontinued_in: string[];
+  unavailable_in: string[];
+  [key: string]: string | null; // Dynamic pricing and ID fields
+}
+
+export interface TransformedProduct {
+  commerce_id: string;
+  name: string;
+  type: string;
+
 }
 
 export interface ProductChannelListing {

@@ -1,12 +1,12 @@
 import type { Client } from '.botpress'
-import type { IntegrationLogger } from '@botpress/sdk/dist/integration/logger'
-import type { IntegrationContext } from '@botpress/sdk'
+import {IntegrationLogger, IntegrationContext, RuntimeError} from '@botpress/sdk'
 import type { Configuration } from '.botpress/implementation/configuration'
 import type { Product } from './types'
 
 import app, { type Webhook } from 'src/gql/app'
 import createWebhook from 'src/gql/createWebhook'
 import deleteWebhook from 'src/gql/deleteWebhook'
+import {transformProducts} from "./utils";
 // import { getUserAndConversation } from './utils'
 
 export async function createOrGetWebhook (url: string, token: string, wyvernURL: string): Promise<Webhook> {
@@ -51,8 +51,9 @@ export async function removeWebhook (url: string, token: string, wyvernURL: stri
 }
 
 interface productHandlerArgs {
-  event: Product[]
+  event: Product
   client: Client
+  logger: IntegrationLogger
 }
 
 interface checkoutHandlerArgs {
@@ -62,14 +63,29 @@ interface checkoutHandlerArgs {
   logger: IntegrationLogger
 }
 
-export async function handleProductCreated ({ event, client }: productHandlerArgs): Promise<void> {
-  console.log('Not implemented', event)
+export async function handleProductCreated ({ event, client, logger }: productHandlerArgs): Promise<void> {
+  logger.forBot().debug('handleProductCreated[event]', JSON.stringify(event, null, 2))
 }
-export async function handleProductUpdated ({ event, client }: productHandlerArgs): Promise<void> {
-  console.log('Not implemented', event)
+export async function handleProductUpdated ({ event, client, logger }: productHandlerArgs): Promise<void> {
+  try {
+    const dto = transformProducts(event, logger)
+
+  await client.createEvent({
+    type: "productUpdated",
+    payload: {
+      type: 'lush:productUpdated',
+      ...dto
+    },
+  });
+
+  } catch (error) {
+      throw new RuntimeError(error)
+  }
+
 }
 export async function handleCheckoutCreated ({ event, client, logger }: checkoutHandlerArgs): Promise<void> {
   console.log('Not implemented', event)
+  logger.forBot().debug('handleCheckoutCreated[event]', JSON.stringify(event, null, 2))
 }
 
 export async function handleCheckoutUpdated ({ event, client, logger }: checkoutHandlerArgs): Promise<void> {
