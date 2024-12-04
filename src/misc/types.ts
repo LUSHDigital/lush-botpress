@@ -184,6 +184,7 @@ export interface Product {
     type: { values: { name: string }[] };
     id: string;
     name: string;
+    rating: number;
     variants: {
       id: string;
       name: string;
@@ -201,19 +202,18 @@ export interface Product {
 }
 
 export interface TransformedVariant {
-  commerce_id: string;
+  variant_id: string;
   name: string;
-  available_channels: string[];
-  discontinued_in: string[];
-  unavailable_in: string[];
-  [key: string]: string | null; // Dynamic pricing and ID fields
+  price: string;
+  available: boolean;
+  commerce_id: string;
 }
 
 export interface TransformedProduct {
   commerce_id: string;
   name: string;
   type: string;
-
+  average_rating?: number;
 }
 
 export interface ProductChannelListing {

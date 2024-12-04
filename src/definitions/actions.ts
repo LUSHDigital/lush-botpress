@@ -138,12 +138,60 @@ const addUserToCheckout = {
   }
 }
 
+const fetchReviews = {
+  title: 'Fetch reviews',
+  description: 'Fetch reviews for a specific product',
+  input: {
+    schema: z.object({
+      commerce_id: z.string().describe('The commerce_id of the product from the ProductTable'),
+      product_name: z.string().describe('The name of the product'),
+      product_type: z.string().describe('The type of the product'),
+    })
+  },
+  output: {
+    schema: z.object({
+      reviews: z.object({
+        items: z.array(z.object({
+          rating: z.object({
+            overall: z.number(),
+            quality: z.number().nullable(),
+            value: z.number().nullable(),
+          }),
+          isRecommended: z.boolean(),
+          language: z.string(),
+          submissionDate: z.string(),
+          text: z.string().nullable(),
+          title: z.string().nullable(),
+          wouldBuyAgain: z.boolean().nullable(),
+          user: z.object({
+            nickname: z.string(),
+            location: z.string(),
+          }),
+          isRatingsOnly: z.boolean(),
+          isFeatured: z.boolean(),
+          feedback: z.object({
+            total: z.number(),
+            positive: z.number(),
+            negative: z.number(),
+          })
+        })),
+        rating: z.object({
+          value: z.number().nullable(),
+          quality: z.number().nullable(),
+          overall: z.number().nullable(),
+        }),
+      }).optional()
+    })
+  }
+}
+
 export const actions = {
   addToBasket,
   addUserToCheckout,
+  fetchReviews,
   getCustomerOrders,
   removeFromBasket,
   updateQuantity,
   upsertBillingAddress,
-  upsertShippingAddress
+  upsertShippingAddress,
 }

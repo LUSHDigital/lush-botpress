@@ -64,51 +64,49 @@ export function stripLastSlash (inputString: string): string {
   }
 }
 
-export function transformProducts(productData: Product, logger: IntegrationLogger): { variants: TransformedVariant[]; product: TransformedProduct } {
-  const variants: TransformedVariant[] = [];
+export function transformProducts(productData: Product, logger: IntegrationLogger): { variants: Record<string, TransformedVariant[]>; product: TransformedProduct } {
+  const channels = ["uk"]; // Channels we support.
 
-  // Transform Product
   let transformedProduct: TransformedProduct = {
     commerce_id: productData.uk?.id!,
     name: productData.uk?.name!,
     type: productData.uk?.type?.values?.[0]?.name || "",
+    average_rating: productData.uk?.rating,
   };
 
+  let variants: Record<string, TransformedVariant[]> = {};
+
   for (const channel in productData) {
-
-    // TODO Create a new data structure where variants are listed per channel with the required fields.
-
     if (productData.hasOwnProperty(channel)) {
       const product = productData[channel];
 
-      if (!product || !product.variants) {
+      if (!product || !product.variants || !channels.includes(channel)) {
         continue;
       }
 
       // Transform variants
       for (const variant of product.variants) {
-
-        const pricingKey = `price_${channel}`;
-        const variantIdKey = `variant_id_${channel}`;
         const formattedPrice = new Intl.NumberFormat('en', {
           style: 'currency',
           currency: variant.pricing.price.gross.currency
         }).format(variant.pricing.price.gross.amount);
 
         const transformedVariant: TransformedVariant = {
+          name: variant.name || "",
           commerce_id: product.id,
-          available_channels: [],
-          discontinued_in: [],
-          unavailable_in: [],
-          [variantIdKey]: variant.id,
-          [pricingKey]: formattedPrice
+          available: false,
+          variant_id: variant.id,
+          price: formattedPrice
         };
 
         // Get name.
         if (variant.attributes) {
           for (const attribute of variant.attributes) {
             if (attribute.attribute.slug === 'display_weight') {
-              transformedVariant.name = attribute.values.map(value => value.name).join(', ');
+              const weighted =  attribute.values.map(value => value.name)[0]
+              if (weighted) {
+                transformedVariant.name = weighted
+              }
               break;
             }
           }
@@ -125,31 +123,28 @@ export function transformProducts(productData: Product, logger: IntegrationLogge
                   continue;
                 }
 
+                if (!channels.includes(channelCode)) { // Skip if channel unsupported.
+                  continue;
+                }
+
                 if (status === 'available') {
-                  transformedVariant.available_channels.push(channelCode);
-                } else if (status === 'unavailable') {
-                  transformedVariant.unavailable_in.push(channelCode);
+                  transformedVariant.available = true;
                 }
               }
             }
           }
         }
 
-        // Find if name already exists
-        const match = variants.findIndex((variant) => variant.name === transformedVariant.name);
-        if (match !== -1) {
-          variants[match] = {
-            ...variants[match],
-            ...transformedVariant,
-          }
+        if (variants[channel]) {
+          variants[channel].push(transformedVariant);
         } else {
-          variants.push(transformedVariant);
+          variants[channel] = [transformedVariant];
         }
       }
     }
   }
 
-  // TODO do an overall available/unavailable check at a product level.
+  logger.forBot().debug(variants);
 
   return { variants, product: transformedProduct };
 }

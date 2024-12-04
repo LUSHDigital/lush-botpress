@@ -15,17 +15,17 @@ export const handler: IntegrationProps['handler'] = async ({ req, logger, client
   const signature = headers[`x-${SALEOR_SIGNATURE_HEADER}`] || headers[SALEOR_SIGNATURE_HEADER]
   const eventName = headers[`x-${SALEOR_EVENT_HEADER}`] || headers[SALEOR_EVENT_HEADER] || ''
 
-  // if (!(body && signature)) {
-  //   logger.forBot().warn('Body or signature is missing')
-  //   return
-  // }
-  // const { saleorDomain } = ctx.configuration
-  // const isVerified = await verifyWebhook(req, saleorDomain, logger)
+  if (!(body && signature)) {
+    logger.forBot().warn('Body or signature is missing')
+    return
+  }
+  const { saleorDomain } = ctx.configuration
+  const isVerified = await verifyWebhook(req, saleorDomain, logger)
 
-  // if (isVerified === false) {
-  //   logger.forBot().warn('Invalid webhook secret')
-  //   return
-  // }
+  if (isVerified === false) {
+    logger.forBot().warn('Invalid webhook secret')
+    return
+  }
 
   const event = JSON.parse(body!)
 
