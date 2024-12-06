@@ -1,32 +1,33 @@
 {
-  "name": "lush",
-  "integrationName": "bpxlush/lush",
-  "scripts": {
-    "type:check": "tsc --noEmit",
-    "version": "bp --version",
-    "login": "bp login",
-    "start": "nodemon --watch \"./*\" --ext \"ts\" --exec \"bp deploy -y\"",
-    "gen": "bp gen",
-    "deploy": "bp deploy -y"
-  },
-  "ts-standard": {
-    "project": "./tsconfig.json"
-  },
-  "keywords": [],
-  "private": true,
-  "author": "",
-  "license": "MIT",
-  "dependencies": {
-    "@botpress/sdk": "1.6.2",
-    "graphql-request": "^7.1.2",
-    "jose": "^5.9.6"
-  },
-  "devDependencies": {
-    "@botpress/cli": "1.7.2",
-    "@botpress/client": "0.36.0",
-    "@types/node": "^18",
-    "nodemon": "^3.1.7",
-    "ts-standard": "^12.0.2",
-    "typescript": "^5.7.2"
-  }
+	"name": "lush",
+	"integrationName": "bpxlush/lush",
+	"scripts": {
+		"type:check": "tsc --noEmit",
+		"version": "bp --version",
+		"login": "bp login",
+		"start": "nodemon --watch \"./*\" --ext \"ts\" --exec \"bp deploy -y\"",
+		"gen": "bp gen",
+		"deploy": "bp deploy -y"
+	},
+	"ts-standard": {
+		"project": "./tsconfig.json"
+	},
+	"keywords": [],
+	"private": true,
+	"author": "",
+	"license": "MIT",
+	"dependencies": {
+		"@botpress/sdk": "1.6.2",
+		"contentful": "11.3.0",
+		"graphql-request": "7.1.2",
+		"jose": "5.9.6"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "1.9.4",
+		"@botpress/cli": "1.7.3",
+		"@botpress/client": "0.36.1",
+		"@types/node": "^18",
+		"nodemon": "3.1.7",
+		"typescript": "5.7.2"
+	}
 }
