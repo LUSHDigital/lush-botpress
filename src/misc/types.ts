@@ -186,12 +186,30 @@ export interface VariantAttribute {
 	}[];
 }
 
+export interface ProductAttribute {
+	values: {
+		name: string;
+	}[];
+}
+
 export interface Product {
 	[key: string]: {
-		type: { values: { name: string }[] };
+		benefits: ProductAttribute;
+		certifications: ProductAttribute;
+		description: string;
 		id: string;
+		key_ingredients: ProductAttribute;
+		media: {
+			alt: string;
+			type: string;
+			url: string;
+		}[];
+		moods: ProductAttribute;
 		name: string;
 		rating: number;
+		scents: ProductAttribute;
+		strapline: ProductAttribute;
+		type: ProductAttribute;
 		variants: {
 			id: string;
 			name: string;
@@ -217,10 +235,22 @@ export interface TransformedVariant {
 }
 
 export interface TransformedProduct {
-	commerce_id: string;
-	name: string;
-	type: string;
 	average_rating?: number;
+	benefits?: string[];
+	certifications?: string[];
+	colours?: string[];
+	commerce_id: string;
+	description: string;
+	images?: {
+		description: string;
+		url: string;
+	}[];
+	key_ingredients?: string[];
+	moods?: string[];
+	name: string;
+	scents?: string[];
+	strapline?: string;
+	type: string;
 }
 
 export interface ProductChannelListing {

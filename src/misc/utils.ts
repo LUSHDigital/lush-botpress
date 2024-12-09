@@ -4,6 +4,7 @@ import type {
 	AckFunction,
 	Client,
 	Product,
+	ProductAttribute,
 	TransformedProduct,
 	TransformedVariant,
 } from "./types";
@@ -72,10 +73,15 @@ export function stripLastSlash(inputString: string): string {
 	if (inputString.endsWith("/")) {
 		// If so, remove it and return the modified string
 		return inputString.slice(0, -1);
-	} else {
-		// Otherwise, return the original string unchanged
-		return inputString;
 	}
+	// Otherwise, return the original string unchanged
+	return inputString;
+}
+
+function flattenAttributeValues(attribute: ProductAttribute): string[] {
+	return attribute.values.map((value) =>
+		value.name.replace("&nbsp", "").trim(),
+	);
 }
 
 export function transformProducts(
@@ -87,11 +93,29 @@ export function transformProducts(
 } {
 	const channels = ["uk"]; // Channels we support.
 
+	const canonicalData = productData.uk!;
+
 	const transformedProduct: TransformedProduct = {
-		commerce_id: productData.uk?.id!,
-		name: productData.uk?.name!,
-		type: productData.uk?.type?.values?.[0]?.name || "",
-		average_rating: productData.uk?.rating,
+		commerce_id: canonicalData.id,
+		name: canonicalData.name,
+		type: canonicalData.type?.values?.[0]?.name || "",
+		average_rating: canonicalData.rating,
+		description: canonicalData.description,
+		// description: EditorJSMarkdownConverter.toMarkdown(
+		// 	canonicalData.description,
+		// ),
+		benefits: flattenAttributeValues(canonicalData.benefits),
+		key_ingredients: flattenAttributeValues(canonicalData.key_ingredients),
+		moods: flattenAttributeValues(canonicalData.moods),
+		scents: flattenAttributeValues(canonicalData.scents),
+		certifications: flattenAttributeValues(canonicalData.certifications),
+		strapline: flattenAttributeValues(canonicalData.scents)?.[0],
+		images: canonicalData.media
+			.filter((media) => media.type === "IMAGE")
+			.map((media) => ({
+				url: media.url,
+				description: media.alt,
+			})),
 	};
 
 	const variants: Record<string, TransformedVariant[]> = {};
@@ -112,7 +136,7 @@ export function transformProducts(
 				}).format(variant.pricing.price.gross.amount);
 
 				const transformedVariant: TransformedVariant = {
-					name: [productData.uk?.name, variant.name].join(": "),
+					name: [canonicalData.name, variant.name].filter(Boolean).join(": "),
 					commerce_id: product.id,
 					available: false,
 					variant_id: variant.id,
@@ -125,9 +149,9 @@ export function transformProducts(
 						if (attribute.attribute.slug === "display_weight") {
 							const weighted = attribute.values.map((value) => value.name)[0];
 							if (weighted) {
-								transformedVariant.name = [productData.uk?.name, weighted].join(
-									": ",
-								);
+								transformedVariant.name = [canonicalData.name, weighted]
+									.filter(Boolean)
+									.join(": ");
 							}
 							break;
 						}

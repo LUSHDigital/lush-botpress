@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@botpress/sdk':
-        specifier: 1.6.2
-        version: 1.6.2(react@18.3.1)
+        specifier: 2.0.1
+        version: 2.0.1(react@18.3.1)
       contentful:
         specifier: 11.3.0
         version: 11.3.0
@@ -25,11 +25,11 @@ importers:
         specifier: 1.9.4
         version: 1.9.4
       '@botpress/cli':
-        specifier: 1.7.3
-        version: 1.7.3(react@18.3.1)
+        specifier: 2.0.1
+        version: 2.0.1(react@18.3.1)
       '@botpress/client':
-        specifier: 0.36.1
-        version: 0.36.1
+        specifier: 0.36.2
+        version: 0.36.2
       '@types/node':
         specifier: ^18
         version: 18.19.32
@@ -99,22 +99,16 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@botpress/cli@1.7.3':
-    resolution: {integrity: sha512-ZwUy1f72ElDBd3s4OsGaBXKrdHoDo5r7JNiFDMmaQTJPZWJpeLt5Wvp0PbrsNobMS75OYzBHjdhFbDN3OYqKsg==}
+  '@botpress/cli@2.0.1':
+    resolution: {integrity: sha512-mjtjwbNmm/9D4SL1oLrWH1xKRgqogqzs5fdB2eCNtOzFNVj6ITONf56maKGAWLSkOVY3I/Tu4swyq+mbuHmXPQ==}
     engines: {node: '>=18'}
     hasBin: true
 
-  '@botpress/client@0.36.0':
-    resolution: {integrity: sha512-X8mIsexw6ky+eLUFDWDVMUNxfki8i6f6Oz4JqRSvtAHg5FzCgdd6ADY/9ksoL2G/lLknx7H690bw4Be8OZZANA==}
+  '@botpress/client@0.36.2':
+    resolution: {integrity: sha512-xO7T5Nbmcpht1b2v59OFQDfQu6EBMR9RChWTFWCK1KXDWrjnbxvOcFG06BseY5H1YIsXWoR386SHsodk+0yv8g==}
 
-  '@botpress/client@0.36.1':
-    resolution: {integrity: sha512-Vto5QZZL24Zp1TAHVc2BOS+zdAhhSSdDphC/xpOcytqo3KlHEqdVpyuM7dOfc9RhFnyL2hOJwN7XFlbEQFWq2A==}
-
-  '@botpress/sdk@1.6.2':
-    resolution: {integrity: sha512-nJVpzFbAWUeQ0d98Sx6MhupmmdW6HquwEwVo5s9giwFbIcvmpPs+Y3Iem2Ss1Jquaf2b5fXyT6X/0GrHdx06jQ==}
-
-  '@botpress/sdk@1.6.3':
-    resolution: {integrity: sha512-/7mgFJl+jGKR8m0KdO7zYgayPTCnBCL7YzVr3aD9KGJgubb3wYOuCli9xh1XNyDOR0hpIaEenlg5JMzCwqJupg==}
+  '@botpress/sdk@2.0.1':
+    resolution: {integrity: sha512-2bWliN8V22jQti3f3hnMGqVW0tvf/fknBb8llw+HMuN0STfx2Iy9huXdRptHd3f2O3jLK9PaFr24eZ1YuvEPhA==}
 
   '@bpinternal/const@0.0.20':
     resolution: {integrity: sha512-AVeQy25M9eXMvjnLZVbFmr++qkONYrwW7qLXD9q9ccD4WLEgMmJZ6e+BSUnwPEBQ8LiqWQXf/YJ1MJxoVkcyNw==}
@@ -2063,11 +2057,11 @@ snapshots:
   '@biomejs/cli-win32-x64@1.9.4':
     optional: true
 
-  '@botpress/cli@1.7.3(react@18.3.1)':
+  '@botpress/cli@2.0.1(react@18.3.1)':
     dependencies:
       '@apidevtools/json-schema-ref-parser': 11.7.2
-      '@botpress/client': 0.36.1
-      '@botpress/sdk': 1.6.3(react@18.3.1)
+      '@botpress/client': 0.36.2
+      '@botpress/sdk': 2.0.1(react@18.3.1)
       '@bpinternal/const': 0.0.20
       '@bpinternal/tunnel': 0.1.7
       '@bpinternal/yargs-extra': 0.0.3
@@ -2118,7 +2112,7 @@ snapshots:
       - utf-8-validate
       - webdriverio
 
-  '@botpress/client@0.36.0':
+  '@botpress/client@0.36.2':
     dependencies:
       axios: 1.7.9
       axios-retry: 4.5.0(axios@1.7.9)
@@ -2128,27 +2122,9 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
-  '@botpress/client@0.36.1':
+  '@botpress/sdk@2.0.1(react@18.3.1)':
     dependencies:
-      axios: 1.7.9
-      axios-retry: 4.5.0(axios@1.7.9)
-      browser-or-node: 2.1.1
-      qs: 6.13.0
-      type-fest: 3.13.1
-    transitivePeerDependencies:
-      - debug
-
-  '@botpress/sdk@1.6.2(react@18.3.1)':
-    dependencies:
-      '@botpress/client': 0.36.0
-      '@bpinternal/zui': 0.12.0(react@18.3.1)
-    transitivePeerDependencies:
-      - debug
-      - react
-
-  '@botpress/sdk@1.6.3(react@18.3.1)':
-    dependencies:
-      '@botpress/client': 0.36.1
+      '@botpress/client': 0.36.2
       '@bpinternal/zui': 0.12.0(react@18.3.1)
     transitivePeerDependencies:
       - debug

@@ -21,6 +21,8 @@ export const handler: IntegrationProps["handler"] = async ({
 }) => {
 	const { body, headers } = req;
 
+	logger.forBot().debug(JSON.stringify(body, null, 2));
+
 	let platform = "";
 	// First, find out if this is from Saleor or Contentful.
 	if (headers["x-contentful-crn"]) {

@@ -100,6 +100,9 @@ export async function handleProductUpdated({
 	logger,
 }: productHandlerArgs): Promise<void> {
 	try {
+		logger
+			.forBot()
+			.debug("handleProductUpdated[event]", JSON.stringify(event, null, 2));
 		const dto = transformProducts(event, logger);
 
 		await client.createEvent({
@@ -254,30 +257,27 @@ export async function handleEntryPublished({
 			);
 		}
 
+		let content: string = fields.content["en-GB"];
+
+		if (imageUrls.length > 0) {
+			content += `## Images
+${imageUrls.join("\n")}`;
+		}
+
+		if (audioUrls.length > 0) {
+			content += `## Audio
+${audioUrls.join("\n")}`;
+		}
+
+		if (videoUrls.length > 0) {
+			content += `## Videos
+${videoUrls.join("\n")}`;
+		}
+
 		await client.uploadFile({
 			accessPolicies: [],
 			key: `${kb}/${fields.name["en-GB"]}.md`,
-			content: `${fields.content["en-GB"]}
-${
-	!!imageUrls.length &&
-	`
-## Images
-${imageUrls.join("\n").trim()}
-`
-}
-${
-	!!videoUrls.length &&
-	`
-## Videos
-${videoUrls.join("\n").trim()}
-`
-}
-${
-	!!audioUrls.length &&
-	`## Audio
-${audioUrls.join("\n").trim()}
-`
-}`,
+			content,
 			index: true,
 			contentType: "text/markdown; charset=utf-8",
 			tags: {
