@@ -17,17 +17,17 @@
 	"author": "",
 	"license": "MIT",
 	"dependencies": {
-		"@botpress/sdk": "2.0.1",
-		"contentful": "11.3.0",
+		"@botpress/sdk": "2.1.0",
+		"contentful": "11.3.3",
 		"graphql-request": "7.1.2",
 		"jose": "5.9.6"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "1.9.4",
-		"@botpress/cli": "2.0.1",
-		"@botpress/client": "0.36.2",
+		"@botpress/cli": "2.1.5",
+		"@botpress/client": "0.38.1",
 		"@types/node": "^18",
-		"nodemon": "3.1.7",
+		"nodemon": "3.1.9",
 		"typescript": "5.7.2"
 	}
 }

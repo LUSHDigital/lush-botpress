@@ -1,0 +1,556 @@
+subscription {
+    event {
+        ... on ProductUpdated {
+            __typename
+            at:product(channel:"at") {
+                id
+                variants {
+                    id
+                    attributes {
+                        values {
+                            slug
+                            name
+                        }
+                        attribute {
+                            slug
+                        }
+                    }
+                    pricing {
+                        price {
+                            gross {
+                                currency
+                                amount
+                            }
+                        }
+                    }
+                }
+            }
+            au:product(channel:"au") {
+                id
+                variants {
+                    id
+                    attributes {
+                        values {
+                            slug
+                            name
+                        }
+                        attribute {
+                            slug
+                        }
+                    }
+                    pricing {
+                        price {
+                            gross {
+                                currency
+                                amount
+                            }
+                        }
+                    }
+                }
+            }
+            bh:product(channel:"bh") {
+                id
+                variants {
+                    id
+                    attributes {
+                        values {
+                            slug
+                            name
+                        }
+                        attribute {
+                            slug
+                        }
+                    }
+                    pricing {
+                        price {
+                            gross {
+                                currency
+                                amount
+                            }
+                        }
+                    }
+                }
+            }
+            ca:product(channel:"ca") {
+                id
+                variants {
+                    id
+                    attributes {
+                        values {
+                            slug
+                            name
+                        }
+                        attribute {
+                            slug
+                        }
+                    }
+                    pricing {
+                        price {
+                            gross {
+                                currency
+                                amount
+                            }
+                        }
+                    }
+                }
+            }
+            cz:product(channel:"cz") {
+                id
+                variants {
+                    id
+                    attributes {
+                        values {
+                            slug
+                            name
+                        }
+                        attribute {
+                            slug
+                        }
+                    }
+                    pricing {
+                        price {
+                            gross {
+                                currency
+                                amount
+                            }
+                        }
+                    }
+                }
+            }
+            de:product(channel:"de") {
+                id
+                variants {
+                    id
+                    attributes {
+                        values {
+                            slug
+                            name
+                        }
+                        attribute {
+                            slug
+                        }
+                    }
+                    pricing {
+                        price {
+                            gross {
+                                currency
+                                amount
+                            }
+                        }
+                    }
+                }
+            }
+            es:product(channel:"es") {
+                id
+                variants {
+                    id
+                    attributes {
+                        values {
+                            slug
+                            name
+                        }
+                        attribute {
+                            slug
+                        }
+                    }
+                    pricing {
+                        price {
+                            gross {
+                                currency
+                                amount
+                            }
+                        }
+                    }
+                }
+            }
+            fr:product(channel:"fr") {
+                id
+                variants {
+                    id
+                    attributes {
+                        values {
+                            slug
+                            name
+                        }
+                        attribute {
+                            slug
+                        }
+                    }
+                    pricing {
+                        price {
+                            gross {
+                                currency
+                                amount
+                            }
+                        }
+                    }
+                }
+            }
+            hk:product(channel:"hk") {
+                id
+                variants {
+                    id
+                    attributes {
+                        values {
+                            slug
+                            name
+                        }
+                        attribute {
+                            slug
+                        }
+                    }
+                    pricing {
+                        price {
+                            gross {
+                                currency
+                                amount
+                            }
+                        }
+                    }
+                }
+            }
+            hu:product(channel:"hu") {
+                id
+                variants {
+                    id
+                    attributes {
+                        values {
+                            slug
+                            name
+                        }
+                        attribute {
+                            slug
+                        }
+                    }
+                    pricing {
+                        price {
+                            gross {
+                                currency
+                                amount
+                            }
+                        }
+                    }
+                }
+            }
+            ie:product(channel:"ie") {
+                id
+                variants {
+                    id
+                    attributes {
+                        values {
+                            slug
+                            name
+                        }
+                        attribute {
+                            slug
+                        }
+                    }
+                    pricing {
+                        price {
+                            gross {
+                                currency
+                                amount
+                            }
+                        }
+                    }
+                }
+            }
+            it:product(channel:"it") {
+                id
+                variants {
+                    id
+                    attributes {
+                        values {
+                            slug
+                            name
+                        }
+                        attribute {
+                            slug
+                        }
+                    }
+                    pricing {
+                        price {
+                            gross {
+                                currency
+                                amount
+                            }
+                        }
+                    }
+                }
+            }
+            jp:product(channel:"jp") {
+                id
+                variants {
+                    id
+                    attributes {
+                        values {
+                            slug
+                            name
+                        }
+                        attribute {
+                            slug
+                        }
+                    }
+                    pricing {
+                        price {
+                            gross {
+                                currency
+                                amount
+                            }
+                        }
+                    }
+                }
+            }
+            mena:product(channel:"mena") {
+                id
+                variants {
+                    id
+                    attributes {
+                        values {
+                            slug
+                            name
+                        }
+                        attribute {
+                            slug
+                        }
+                    }
+                    pricing {
+                        price {
+                            gross {
+                                currency
+                                amount
+                            }
+                        }
+                    }
+                }
+            }
+            nl:product(channel:"nl") {
+                id
+                variants {
+                    id
+                    attributes {
+                        values {
+                            slug
+                            name
+                        }
+                        attribute {
+                            slug
+                        }
+                    }
+                    pricing {
+                        price {
+                            gross {
+                                currency
+                                amount
+                            }
+                        }
+                    }
+                }
+            }
+            nz:product(channel:"nz") {
+                id
+                variants {
+                    id
+                    attributes {
+                        values {
+                            slug
+                            name
+                        }
+                        attribute {
+                            slug
+                        }
+                    }
+                    pricing {
+                        price {
+                            gross {
+                                currency
+                                amount
+                            }
+                        }
+                    }
+                }
+            }
+            pl:product(channel:"pl") {
+                id
+                variants {
+                    id
+                    attributes {
+                        values {
+                            slug
+                            name
+                        }
+                        attribute {
+                            slug
+                        }
+                    }
+                    pricing {
+                        price {
+                            gross {
+                                currency
+                                amount
+                            }
+                        }
+                    }
+                }
+            }
+            pt:product(channel:"pt") {
+                id
+                variants {
+                    id
+                    attributes {
+                        values {
+                            slug
+                            name
+                        }
+                        attribute {
+                            slug
+                        }
+                    }
+                    pricing {
+                        price {
+                            gross {
+                                currency
+                                amount
+                            }
+                        }
+                    }
+                }
+            }
+            se:product(channel:"se") {
+                id
+                variants {
+                    id
+                    attributes {
+                        values {
+                            slug
+                            name
+                        }
+                        attribute {
+                            slug
+                        }
+                    }
+                    pricing {
+                        price {
+                            gross {
+                                currency
+                                amount
+                            }
+                        }
+                    }
+                }
+            }
+            sg:product(channel:"sg") {
+                id
+                variants {
+                    id
+                    attributes {
+                        values {
+                            slug
+                            name
+                        }
+                        attribute {
+                            slug
+                        }
+                    }
+                    pricing {
+                        price {
+                            gross {
+                                currency
+                                amount
+                            }
+                        }
+                    }
+                }
+            }
+            uk:product(channel:"uk") {
+                id
+                name
+                description
+                type: attribute(slug: "type") {
+                    values {
+                        name
+                    }
+                }
+                media {
+                    alt
+                    type
+                    url
+                }
+                strapline: attribute(slug: "strapline") {
+                    values {
+                        name
+                    }
+                }
+                certifications: attribute(slug: "certifications") {
+                    values {
+                        name
+                    }
+                }
+                benefits: attribute(slug: "benefit") {
+                    values {
+                        name
+                    }
+                }
+                scents: attribute(slug: "scent") {
+                    values {
+                        name
+                    }
+                }
+                moods: attribute(slug: "mood") {
+                    values {
+                        name
+                    }
+                }
+                key_ingredients: attribute(slug: "key_ingredients") {
+                    values {
+                        name
+                    }
+                }
+                rating
+                variants {
+                    id
+                    attributes {
+                        values {
+                            slug
+                            name
+                        }
+                        attribute {
+                            slug
+                        }
+                    }
+                    pricing {
+                        price {
+                            gross {
+                                currency
+                                amount
+                            }
+                        }
+                    }
+                }
+            }
+            us:product(channel:"us") {
+                id
+                variants {
+                    id
+                    attributes {
+                        values {
+                            slug
+                            name
+                        }
+                        attribute {
+                            slug
+                        }
+                    }
+                    pricing {
+                        price {
+                            gross {
+                                currency
+                                amount
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -60,7 +60,7 @@ export const handler: IntegrationProps["handler"] = async ({
 			return;
 		}
 
-		const event = JSON.parse(body!);
+		const event = JSON.parse(body);
 
 		switch (eventName) {
 			case "product_created":

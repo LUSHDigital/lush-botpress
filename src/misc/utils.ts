@@ -78,9 +78,59 @@ export function stripLastSlash(inputString: string): string {
 	return inputString;
 }
 
-function flattenAttributeValues(attribute: ProductAttribute): string[] {
+interface EditorJsBlock {
+	id: string;
+	type: string;
+	data: {
+		text: string;
+	};
+}
+
+interface EditorJsContent {
+	time: number;
+	blocks: EditorJsBlock[];
+	version: string;
+}
+
+function convertEditorJsToMarkdown(jsonString: string): string {
+	const content: EditorJsContent = JSON.parse(jsonString);
+
+	return content.blocks
+		.map((block) => {
+			switch (block.type) {
+				case "paragraph":
+					return convertParagraphToMarkdown(block.data.text);
+				default:
+					return "";
+			}
+		})
+		.join("\n\n");
+}
+
+function convertParagraphToMarkdown(text: string): string {
+	// Convert HTML tags to Markdown equivalents
+	return text
+		.replace(/<b>(.*?)<\/b>/g, "**$1**") // Bold
+		.replace(/<i>(.*?)<\/i>/g, "*$1*") // Italics
+		.replace(/<a href="(.*?)">(.*?)<\/a>/g, "[$2]($1)") // Links
+		.replace(/<br>/g, "\n") // Line breaks
+		.replace(/&nbsp;/g, " "); // Spaces
+}
+
+function flattenAttributeValues(
+	attribute: ProductAttribute,
+	includeLowerCase = false,
+): string[] {
+	if (includeLowerCase) {
+		const x = attribute.values.map((value) =>
+			value.name.replace(/&nbsp;/g, "").trim(),
+		);
+		const y = [...x, ...x.map((item) => item.toLowerCase())];
+		return y;
+	}
+
 	return attribute.values.map((value) =>
-		value.name.replace("&nbsp", "").trim(),
+		value.name.replace(/&nbsp;/g, "").trim(),
 	);
 }
 
@@ -97,19 +147,23 @@ export function transformProducts(
 
 	const transformedProduct: TransformedProduct = {
 		commerce_id: canonicalData.id,
-		name: canonicalData.name,
-		type: canonicalData.type?.values?.[0]?.name || "",
+		name: canonicalData.name.trim(),
+		collections: canonicalData.collections.map((collection) =>
+			collection.name.trim(),
+		),
+		type: flattenAttributeValues(canonicalData.type)?.[0]?.toLowerCase() || "",
 		average_rating: canonicalData.rating,
-		description: canonicalData.description,
-		// description: EditorJSMarkdownConverter.toMarkdown(
-		// 	canonicalData.description,
-		// ),
-		benefits: flattenAttributeValues(canonicalData.benefits),
-		key_ingredients: flattenAttributeValues(canonicalData.key_ingredients),
-		moods: flattenAttributeValues(canonicalData.moods),
-		scents: flattenAttributeValues(canonicalData.scents),
-		certifications: flattenAttributeValues(canonicalData.certifications),
-		strapline: flattenAttributeValues(canonicalData.scents)?.[0],
+		description: convertEditorJsToMarkdown(canonicalData.description),
+		benefits: flattenAttributeValues(canonicalData.benefits, true),
+		colours: flattenAttributeValues(canonicalData.colours, true),
+		key_ingredients: flattenAttributeValues(
+			canonicalData.key_ingredients,
+			true,
+		),
+		moods: flattenAttributeValues(canonicalData.moods, true),
+		scents: flattenAttributeValues(canonicalData.scents, true),
+		certifications: flattenAttributeValues(canonicalData.certifications, true),
+		strapline: flattenAttributeValues(canonicalData.strapline)?.[0],
 		images: canonicalData.media
 			.filter((media) => media.type === "IMAGE")
 			.map((media) => ({

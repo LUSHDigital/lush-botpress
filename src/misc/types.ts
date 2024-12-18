@@ -196,6 +196,9 @@ export interface Product {
 	[key: string]: {
 		benefits: ProductAttribute;
 		certifications: ProductAttribute;
+		collections: {
+			name: string;
+		}[];
 		description: string;
 		id: string;
 		key_ingredients: ProductAttribute;
@@ -207,6 +210,7 @@ export interface Product {
 		moods: ProductAttribute;
 		name: string;
 		rating: number;
+		colours: ProductAttribute;
 		scents: ProductAttribute;
 		strapline: ProductAttribute;
 		type: ProductAttribute;
@@ -237,6 +241,7 @@ export interface TransformedVariant {
 export interface TransformedProduct {
 	average_rating?: number;
 	benefits?: string[];
+	collections?: string[];
 	certifications?: string[];
 	colours?: string[];
 	commerce_id: string;
