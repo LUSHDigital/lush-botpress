@@ -1,5 +1,7 @@
 import { RuntimeError } from "@botpress/sdk";
 import { SALEOR_EVENT_HEADER, SALEOR_SIGNATURE_HEADER } from "./const";
+import { handleDirectusProductUpdated } from "./misc/directus/handlers/product";
+import { handleDirectusProductLaunchUpdated } from "./misc/directus/handlers/productLaunch";
 import { verifyWebhook } from "./misc/hmac";
 import {
 	handleCheckoutCreated,
@@ -10,7 +12,11 @@ import {
 	handleProductCreated,
 	handleProductUpdated,
 } from "./misc/ops";
-import type { ContentfulResponse } from "./misc/types";
+import type {
+	ContentfulResponse,
+	DirectusProductPayload,
+	DirectusWebhookPayload,
+} from "./misc/types";
 import type { IntegrationProps } from ".botpress";
 
 export const handler: IntegrationProps["handler"] = async ({
@@ -24,9 +30,13 @@ export const handler: IntegrationProps["handler"] = async ({
 	logger.forBot().debug(JSON.stringify(body, null, 2));
 
 	let platform = "";
-	// First, find out if this is from Saleor or Contentful.
+	// First, determine which platform to handle.
 	if (headers["x-contentful-crn"]) {
 		platform = "contentful";
+	}
+
+	if (headers["x-platform"] === "directus") {
+		platform = "directus";
 	}
 
 	if (
@@ -40,7 +50,12 @@ export const handler: IntegrationProps["handler"] = async ({
 		throw new RuntimeError("Unknown platform");
 	}
 
+	if (typeof body !== "string") {
+		throw new RuntimeError("Invalid body");
+	}
+
 	if (platform === "saleor") {
+		// Saleor
 		// In Saleor 4 they're dropping x- prefixed headers
 		const signature =
 			headers[`x-${SALEOR_SIGNATURE_HEADER}`] ||
@@ -79,6 +94,7 @@ export const handler: IntegrationProps["handler"] = async ({
 				logger.forBot().warn(`No handler for ${eventName}`);
 		}
 	} else if (platform === "contentful") {
+		// Contentful
 		if (headers["content-key"] !== ctx.configuration.contentfulKey) {
 			logger.forBot().warn("Invalid webhook secret");
 			return;
@@ -98,6 +114,31 @@ export const handler: IntegrationProps["handler"] = async ({
 			}
 		} catch (error) {
 			throw new RuntimeError(error);
+		}
+	} else if (platform === "directus") {
+		// Directus
+		const entry = JSON.parse(
+			body,
+		) as DirectusWebhookPayload<DirectusProductPayload>;
+		const eventName = entry.event;
+
+		switch (eventName) {
+			case "product.items.update":
+				return await handleDirectusProductUpdated({
+					entry,
+					ctx,
+					client,
+					logger,
+				});
+			case "productLaunch.items.update":
+				return await handleDirectusProductLaunchUpdated({
+					entry,
+					ctx,
+					client,
+					logger,
+				});
+			default:
+				logger.forBot().warn(`No handler for ${eventName}`);
 		}
 	}
 };

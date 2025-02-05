@@ -1,4 +1,5 @@
 import type * as sdk from "@botpress/sdk";
+import type { Product as DirectusProduct } from "./directus/directus-types";
 import type * as bp from ".botpress";
 
 export type ValueOf<T> = T[keyof T];
@@ -232,9 +233,11 @@ export interface Product {
 
 export interface TransformedVariant {
 	variant_id: string;
+	variant_ids: Record<string, string>;
 	name: string;
-	price: string;
-	available: boolean;
+	size: string;
+	price: Record<string, number>;
+	availability: Record<string, boolean>;
 	commerce_id: string;
 }
 
@@ -244,18 +247,18 @@ export interface TransformedProduct {
 	collections?: string[];
 	certifications?: string[];
 	colours?: string[];
-	commerce_id: string;
-	description: string;
+	commerce_id?: string;
+	description?: string;
 	images?: {
 		description: string;
 		url: string;
 	}[];
 	key_ingredients?: string[];
 	moods?: string[];
-	name: string;
+	name?: string;
 	scents?: string[];
 	strapline?: string;
-	type: string;
+	type?: string;
 }
 
 export interface ProductChannelListing {
@@ -373,4 +376,33 @@ export interface ContentfulResponse {
 	metadata: ContentfulMetadata;
 	fields?: ContentfulFields;
 	sys: ContentfulSys;
+}
+
+type MapCrudObject<T> = {
+	[Property in keyof T]: T[Property] extends any[]
+		? {
+				create: T[Property];
+				update: T[Property];
+				delete: T[Property];
+			}
+		: T[Property];
+};
+
+export type DirectusProductPayload = MapCrudObject<DirectusProduct>;
+
+export interface DirectusWebhookPayload<T> {
+	event: string;
+	payload: Partial<T>;
+	keys: string[];
+	collection: string;
+}
+
+export interface VectorizeResponse {
+	matches: {
+		count: number;
+		matches: {
+			id: string;
+			score: number;
+		}[];
+	};
 }

@@ -9,11 +9,14 @@ importers:
   .:
     dependencies:
       '@botpress/sdk':
-        specifier: 2.1.0
-        version: 2.1.0(react@18.3.1)
+        specifier: 3.0.2
+        version: 3.0.2(@bpinternal/zui@0.13.5(react@18.3.1))(esbuild@0.16.17)
+      '@directus/sdk':
+        specifier: 19.0.1
+        version: 19.0.1
       contentful:
-        specifier: 11.3.3
-        version: 11.3.3
+        specifier: 11.4.5
+        version: 11.4.5
       graphql-request:
         specifier: 7.1.2
         version: 7.1.2(graphql@16.8.1)
@@ -25,11 +28,11 @@ importers:
         specifier: 1.9.4
         version: 1.9.4
       '@botpress/cli':
-        specifier: 2.1.5
-        version: 2.1.5(react@18.3.1)
+        specifier: 3.0.4
+        version: 3.0.4(@bpinternal/zui@0.13.5(react@18.3.1))
       '@botpress/client':
-        specifier: 0.38.1
-        version: 0.38.1
+        specifier: 0.41.2
+        version: 0.41.2
       '@types/node':
         specifier: ^18
         version: 18.19.32
@@ -37,8 +40,8 @@ importers:
         specifier: 3.1.9
         version: 3.1.9
       typescript:
-        specifier: 5.7.2
-        version: 5.7.2
+        specifier: 5.7.3
+        version: 5.7.3
 
 packages:
 
@@ -99,19 +102,25 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@botpress/chat@0.4.5':
-    resolution: {integrity: sha512-hRmOYqigdQ6lHFukBbO/pMoYm4sPAOybCAuYSHj9sj8PltV0aUXkBp+l4fS2MfXlbQrHFTzoi1zhUevr9nuGcw==}
+  '@botpress/chat@0.4.9':
+    resolution: {integrity: sha512-ew4Z7gFbDzkxMeOctYjG0XK4NoLkZaHVjHCkxou/1e4RhE8ILHCyMGOsgbzXrC6xeHCca6ws665hmTQLR+LGVA==}
 
-  '@botpress/cli@2.1.5':
-    resolution: {integrity: sha512-UPXNeiXZzS1q19ui5ulTdqaS2R3BMCah3lb+UUggRz5J96tHF1MJ0DmU/WWDxu0+DQKADiQDYoroMCMdsIzk/Q==}
+  '@botpress/cli@3.0.4':
+    resolution: {integrity: sha512-zuMyZ4iH2eQCFXFvlOJsYS3KSR7VhhaelHmlbGZ1VPxUSupHjFJrtecvPWot/YuNKvc65RrMy6zfBsUXcptykw==}
     engines: {node: '>=18'}
     hasBin: true
 
-  '@botpress/client@0.38.1':
-    resolution: {integrity: sha512-yEYe5zg6IBitXTuAj+7sgGKXDtnExKaBAOkXYueuz1gvuUwGLMIX5MqJh5aMsHh18Tm1Igs3PBDemxV554lumQ==}
+  '@botpress/client@0.41.2':
+    resolution: {integrity: sha512-i6tMNNyDa+1TtmuXdAOzFxC6Mbd31aQXlAVBp7cbr3BKIsWkjZJuimd2pX9OtTK/J572jn9iD52G4N+XjPcqUw==}
 
-  '@botpress/sdk@2.1.0':
-    resolution: {integrity: sha512-PYI2IsZkmGSaaJBOTxWHeqlkY/rWTUaAX4tXn2ml4wvFR1Ja5HN/sVnh1sSGYhu9LNrzvAvGEVo343s8utcamQ==}
+  '@botpress/sdk@3.0.2':
+    resolution: {integrity: sha512-l06XtuNFFdVA3OKPyZQc/EJNjewCu3NnCAFtsJ2y0n687r6pECByRcKDssHU4s5wg+k8zx/9XB0d1/hYmfTuFA==}
+    peerDependencies:
+      '@bpinternal/zui': ^0.13.5
+      esbuild: ^0.16.12
+    peerDependenciesMeta:
+      esbuild:
+        optional: true
 
   '@bpinternal/const@0.0.20':
     resolution: {integrity: sha512-AVeQy25M9eXMvjnLZVbFmr++qkONYrwW7qLXD9q9ccD4WLEgMmJZ6e+BSUnwPEBQ8LiqWQXf/YJ1MJxoVkcyNw==}
@@ -123,11 +132,14 @@ packages:
   '@bpinternal/yargs-extra@0.0.3':
     resolution: {integrity: sha512-e/unlq0LX4CJUv1jGOv1UgwB/h2M0NCXnwD4lEw496GpkQikO668RS+BBlRhkqdGfZmvKDkXZZ96xJCn+i6Ymg==}
 
-  '@bpinternal/zui@0.12.0':
-    resolution: {integrity: sha512-ztSLi+XuFT9WSURqwA3aWvMw3OH28PQNBGCr7/+TGm8xEqov9paoQUQXqsavF/RwHZFT9IYkPkcSkZ3qc8deZg==}
+  '@bpinternal/zui@0.13.5':
+    resolution: {integrity: sha512-9mG+zEMUcXf19re16YAilJDU7CSjnujMrkh9Z4Y8FNtM+kkePUVklt05J3ecrladDAt3D0JRs5awvSbfCjT5xw==}
     engines: {node: '>=16.0.0', pnpm: 8.6.2}
     peerDependencies:
       react: ^18.2.0
+    peerDependenciesMeta:
+      react:
+        optional: true
 
   '@colors/colors@1.6.0':
     resolution: {integrity: sha512-Ir+AOibqzrIsL6ajt3Rz3LskB7OiMVHqltZmspbW/TJuTVuyOMirVqAkjfY6JISiLHgyNqicAC8AyHHGzNd/dA==}
@@ -142,6 +154,10 @@ packages:
 
   '@dabh/diagnostics@2.0.3':
     resolution: {integrity: sha512-hrlQOIi7hAfzsMqlGSFyVucrx38O+j6wiGOf//H2ecvIEqYN4ADBSS2iLMh5UFyDunCNniUIPk/q3riFv45xRA==}
+
+  '@directus/sdk@19.0.1':
+    resolution: {integrity: sha512-6KwWedA/vxrMN2aRm5L52TEgB+42vkz0Ae8kwOitHuBPT4VWtUNOXenzaHnZyXyNrEgh/VBLJ36f3UEe3b/Wfw==}
+    engines: {node: '>=22'}
 
   '@esbuild/aix-ppc64@0.20.2':
     resolution: {integrity: sha512-D+EBOJHXdNZcLJRBkhENNG8Wji2kgc9AZ9KiPr1JuZjsNtyHzrsfLRrY0tk2H2aoFu6RANO1y1iPPUCDYWkb5g==}
@@ -952,8 +968,8 @@ packages:
     resolution: {integrity: sha512-Ao/5Y74ERPn6kjzb/8okYPuQJnikMtR+dnv0plLw8IvPomwXonLq3qom0rLSyo5KuvQkBMa9AApy1izunxW4mw==}
     engines: {node: '>=18'}
 
-  contentful@11.3.3:
-    resolution: {integrity: sha512-85AoXgkqnHy9id912lWMwwqUc1twofCmcwLJery9EWtBhcpBPm8qVmPKVjJeqLwr+4nIsOFVdUAUgtJYqSOo8w==}
+  contentful@11.4.5:
+    resolution: {integrity: sha512-SC4yb5YXpiwq3msnBYmKrgi8oxSQW2q6RBwl8KLP/lmd5KQfoHHPEWokV6V0xJrH0bOXmNXXaxF0ouq2Gyu+Vg==}
     engines: {node: '>=18'}
 
   core-util-is@1.0.2:
@@ -1616,9 +1632,9 @@ packages:
     resolution: {integrity: sha512-ravE6m9Atw9Z/jjttRUZ+clIXogdghyZAuWJ3qEzjT+jI/dL1ifAqhZeC5VHzQp1MSt1+jxKkFNemj/iO7tVUA==}
     engines: {node: '>=4'}
 
-  prettier@2.8.8:
-    resolution: {integrity: sha512-tdN8qQGvNjw4CHbY+XXk0JgCXn9QiF21a55rBe5LJAU+kDyC4WQn4+awm2Xfk2lQMk5fKup9XgzTZtGkjBdP9Q==}
-    engines: {node: '>=10.13.0'}
+  prettier@3.4.2:
+    resolution: {integrity: sha512-e9MewbtFo+Fevyuxn/4rrcDAaq0IYxPGLvObpQjiZBMAzB9IGmzlnG9RZy3FFas+eBMu2vA0CszMeduow5dIuQ==}
+    engines: {node: '>=14'}
     hasBin: true
 
   pretty-format@29.7.0:
@@ -1878,8 +1894,8 @@ packages:
     resolution: {integrity: sha512-/OxDN6OtAk5KBpGb28T+HZc2M+ADtvRxXrKKbUwtsLgdoxgX13hyy7ek6bFRl5+aBs2yZzB0c4CnQfAtVypW/g==}
     engines: {node: '>= 0.4'}
 
-  typescript@5.7.2:
-    resolution: {integrity: sha512-i5t66RHxDvVN40HfDd1PsEThGNnlMCMT3jMUuoh9/0TaqWevNontacunWyN02LA9/fIbEWlcHZcgTKb9QoaLfg==}
+  typescript@5.7.3:
+    resolution: {integrity: sha512-84MVSjMEHP+FQRPy3pX9sTVV/INIex71s9TL2Gm5FG/WG1SqXeKyZ0k7/blY/4FdOzI12CBy1vGc4og/eus0fw==}
     engines: {node: '>=14.17'}
     hasBin: true
 
@@ -2107,7 +2123,7 @@ snapshots:
   '@biomejs/cli-win32-x64@1.9.4':
     optional: true
 
-  '@botpress/chat@0.4.5':
+  '@botpress/chat@0.4.9':
     dependencies:
       axios: 1.2.5
       browser-or-node: 2.1.1
@@ -2120,12 +2136,12 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
-  '@botpress/cli@2.1.5(react@18.3.1)':
+  '@botpress/cli@3.0.4(@bpinternal/zui@0.13.5(react@18.3.1))':
     dependencies:
       '@apidevtools/json-schema-ref-parser': 11.7.2
-      '@botpress/chat': 0.4.5
-      '@botpress/client': 0.38.1
-      '@botpress/sdk': 2.1.0(react@18.3.1)
+      '@botpress/chat': 0.4.9
+      '@botpress/client': 0.41.2
+      '@botpress/sdk': 3.0.2(@bpinternal/zui@0.13.5(react@18.3.1))(esbuild@0.16.17)
       '@bpinternal/const': 0.0.20
       '@bpinternal/tunnel': 0.1.7
       '@bpinternal/yargs-extra': 0.0.3
@@ -2145,7 +2161,7 @@ snapshots:
       handlebars: 4.7.8
       latest-version: 5.1.0
       lodash: 4.17.21
-      prettier: 2.8.8
+      prettier: 3.4.2
       prompts: 2.4.2
       radash: 9.5.0
       semver: 7.6.0
@@ -2154,6 +2170,7 @@ snapshots:
       winston: 3.13.0
       yn: 4.0.0
     transitivePeerDependencies:
+      - '@bpinternal/zui'
       - '@edge-runtime/vm'
       - '@vitest/browser'
       - '@vitest/ui'
@@ -2165,7 +2182,6 @@ snapshots:
       - less
       - lightningcss
       - playwright
-      - react
       - safaridriver
       - sass
       - stylus
@@ -2175,7 +2191,7 @@ snapshots:
       - utf-8-validate
       - webdriverio
 
-  '@botpress/client@0.38.1':
+  '@botpress/client@0.41.2':
     dependencies:
       axios: 1.7.9
       axios-retry: 4.5.0(axios@1.7.9)
@@ -2185,13 +2201,15 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
-  '@botpress/sdk@2.1.0(react@18.3.1)':
+  '@botpress/sdk@3.0.2(@bpinternal/zui@0.13.5(react@18.3.1))(esbuild@0.16.17)':
     dependencies:
-      '@botpress/client': 0.38.1
-      '@bpinternal/zui': 0.12.0(react@18.3.1)
+      '@botpress/client': 0.41.2
+      '@bpinternal/zui': 0.13.5(react@18.3.1)
+      browser-or-node: 2.1.1
+    optionalDependencies:
+      esbuild: 0.16.17
     transitivePeerDependencies:
       - debug
-      - react
 
   '@bpinternal/const@0.0.20':
     dependencies:
@@ -2233,8 +2251,8 @@ snapshots:
       yargs: 17.7.2
       yn: 4.0.0
 
-  '@bpinternal/zui@0.12.0(react@18.3.1)':
-    dependencies:
+  '@bpinternal/zui@0.13.5(react@18.3.1)':
+    optionalDependencies:
       react: 18.3.1
 
   '@colors/colors@1.6.0': {}
@@ -2251,6 +2269,8 @@ snapshots:
       colorspace: 1.1.4
       enabled: 2.0.0
       kuler: 2.0.0
+
+  '@directus/sdk@19.0.1': {}
 
   '@esbuild/aix-ppc64@0.20.2':
     optional: true
@@ -2980,7 +3000,7 @@ snapshots:
     optionalDependencies:
       '@rollup/rollup-linux-x64-gnu': 4.28.0
 
-  contentful@11.3.3:
+  contentful@11.4.5:
     dependencies:
       '@contentful/content-source-maps': 0.11.7
       '@contentful/rich-text-types': 16.8.5
@@ -3449,7 +3469,8 @@ snapshots:
 
   jose@5.9.6: {}
 
-  js-tokens@4.0.0: {}
+  js-tokens@4.0.0:
+    optional: true
 
   js-yaml@4.1.0:
     dependencies:
@@ -3548,6 +3569,7 @@ snapshots:
   loose-envify@1.4.0:
     dependencies:
       js-tokens: 4.0.0
+    optional: true
 
   loupe@2.3.7:
     dependencies:
@@ -3692,7 +3714,7 @@ snapshots:
 
   prepend-http@2.0.0: {}
 
-  prettier@2.8.8: {}
+  prettier@3.4.2: {}
 
   pretty-format@29.7.0:
     dependencies:
@@ -3734,6 +3756,7 @@ snapshots:
   react@18.3.1:
     dependencies:
       loose-envify: 1.4.0
+    optional: true
 
   readable-stream@3.6.2:
     dependencies:
@@ -3975,7 +3998,7 @@ snapshots:
       is-typed-array: 1.1.13
       possible-typed-array-names: 1.0.0
 
-  typescript@5.7.2: {}
+  typescript@5.7.3: {}
 
   ufo@1.5.3: {}
 

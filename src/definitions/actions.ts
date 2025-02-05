@@ -148,6 +148,31 @@ const addUserToCheckout = {
 	},
 };
 
+const fetchProducts = {
+	title: "Fetch products",
+	description: "Fetch product SKUs related to a question/query",
+	input: {
+		schema: z.object({
+			question: z
+				.string()
+				.describe(
+					"The type of product(s) the person is looking for as a natural language string",
+				),
+			first: z
+				.number()
+				.describe(
+					"The maximum number of products you would like in the response",
+				)
+				.optional(),
+		}),
+	},
+	output: {
+		schema: z.object({
+			productSKUs: z.array(z.string()),
+		}),
+	},
+};
+
 const fetchReviews = {
 	title: "Fetch reviews",
 	description: "Fetch reviews for a specific product",
@@ -155,7 +180,8 @@ const fetchReviews = {
 		schema: z.object({
 			commerce_id: z
 				.string()
-				.describe("The commerce_id of the product from the ProductTable"),
+				.describe("The commerce_id of the product from the ProductTable")
+				.optional(),
 			product_name: z.string().describe("The name of the product"),
 			product_type: z.string().describe("The type of the product"),
 		}),
@@ -171,7 +197,7 @@ const fetchReviews = {
 								quality: z.number().nullable(),
 								value: z.number().nullable(),
 							}),
-							isRecommended: z.boolean(),
+							isRecommended: z.boolean().nullable(),
 							language: z.string(),
 							submissionDate: z.string(),
 							text: z.string().nullable(),
@@ -179,7 +205,7 @@ const fetchReviews = {
 							wouldBuyAgain: z.boolean().nullable(),
 							user: z.object({
 								nickname: z.string(),
-								location: z.string(),
+								location: z.string().nullable(),
 							}),
 							isRatingsOnly: z.boolean(),
 							isFeatured: z.boolean(),
@@ -201,10 +227,42 @@ const fetchReviews = {
 	},
 };
 
+const findStores = {
+	title: "Find stores",
+	description: "Perform a geo-lookup query to find the nearest stores",
+	input: {
+		schema: z.object({
+			location: z.string().describe("An address, city, or postcode"),
+			limit: z
+				.number()
+				.describe("The maximum number of stores you would like in the response")
+				.optional(),
+			channel: z
+				.string()
+				.describe(
+					"The market the user is in as a lowercase 2-letter country code. Ask if unsure.",
+				),
+			radius: z
+				.number()
+				.describe(
+					"The maximum radius to look within (in miles). If the user has given you kilometers then convert it to miles by multiplying it by 0.621371",
+				)
+				.optional(),
+		}),
+	},
+	output: {
+		schema: z.object({
+			stores: z.array(z.string()),
+		}),
+	},
+};
+
 export const actions = {
 	addToBasket,
 	addUserToCheckout,
+	fetchProducts,
 	fetchReviews,
+	findStores,
 	getCustomerOrders,
 	removeFromBasket,
 	updateQuantity,

@@ -95,6 +95,10 @@ interface EditorJsContent {
 function convertEditorJsToMarkdown(jsonString: string): string {
 	const content: EditorJsContent = JSON.parse(jsonString);
 
+	if (!content) {
+		return "";
+	}
+
 	return content.blocks
 		.map((block) => {
 			switch (block.type) {
@@ -152,7 +156,7 @@ export function transformProducts(
 			collection.name.trim(),
 		),
 		type: flattenAttributeValues(canonicalData.type)?.[0]?.toLowerCase() || "",
-		average_rating: canonicalData.rating,
+		average_rating: canonicalData.rating || undefined,
 		description: convertEditorJsToMarkdown(canonicalData.description),
 		benefits: flattenAttributeValues(canonicalData.benefits, true),
 		colours: flattenAttributeValues(canonicalData.colours, true),
@@ -184,17 +188,17 @@ export function transformProducts(
 
 			// Transform variants
 			for (const variant of product.variants) {
-				const formattedPrice = new Intl.NumberFormat("en", {
-					style: "currency",
-					currency: variant.pricing.price.gross.currency,
-				}).format(variant.pricing.price.gross.amount);
+				// const formattedPrice = new Intl.NumberFormat("en", {
+				// 	style: "currency",
+				// 	currency: variant.pricing.price.gross.currency,
+				// }).format(variant.pricing.price.gross.amount);
 
 				const transformedVariant: TransformedVariant = {
 					name: [canonicalData.name, variant.name].filter(Boolean).join(": "),
 					commerce_id: product.id,
 					available: false,
 					variant_id: variant.id,
-					price: formattedPrice,
+					price: variant.pricing.price.gross.amount,
 				};
 
 				// Get name.

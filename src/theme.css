@@ -1,0 +1,78 @@
+:root {
+	--noir: #212121;
+	--charcoal: #333;
+	--grey: #bbb;
+	--mid-grey: #e5e7ea;
+	--dark-grey: #5f6366;
+	--green: #0ca747;
+}
+
+.bpComposerContainer {
+	background-color: white;
+	border: 1px solid var(--grey);
+	box-shadow: none;
+	border-radius: 1000px;
+}
+
+.bpComposerInput {
+	font-size: 1rem;
+	line-height: 1.375;
+	font-weight: 400;
+	color: var(--dark-grey);
+}
+
+.bpComposerButtonIcon,
+.bpComposerVoiceButtonIcon {
+	color: var(--noir);
+	background-color: transparent;
+}
+
+.bpMessageContainer[data-direction="outgoing"] .bpMessageBlocksBubble {
+	color: #fff;
+	background-color: var(--charcoal);
+	border-radius: 20px 0px 20px 20px;
+	padding: 12px 20px;
+}
+
+.bpMessageContainer[data-direction="incoming"] .bpMessageBlocksBubble {
+	background-color: transparent;
+	color: var(--noir);
+
+	font-size: 18px;
+	font-style: normal;
+	font-weight: 600;
+	line-height: 25px;
+	letter-spacing: -0.5px;
+}
+
+.bpMessageBlocksTextText del {
+	text-decoration: none;
+	color: var(--green);
+}
+
+.bpMessageBlocksButton,
+.bpMessageBlocksButton:hover {
+	border-radius: 1000px;
+	border: 0;
+	padding: 12px 15px;
+	background: var(--mid-grey);
+	color: var(--noir);
+
+	text-align: center;
+
+	/* Small Body Regular */
+	font-size: 12px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: 1.333333;
+}
+
+.bpMessageBlocksButton:hover {
+	background: rgba(33, 33, 33, 0.5);
+	color: #fff;
+}
+
+.bpTypingIndicatorContainer {
+	border: 0;
+	background-color: transparent;
+}

@@ -2,14 +2,19 @@ import { z } from "@botpress/sdk";
 
 export const configuration = {
 	schema: z.object({
-		contentfulAccessToken: z.string(),
-		contentfulKey: z.string(),
-		contentfulSpaceId: z.string(),
-		productKnowledgeBaseId: z.string(),
+		bazaarvoiceKey: z.string().optional(), // Deprecated
+		contentfulAccessToken: z.string().optional(), // Deprecated
+		contentfulKey: z.string().optional(), // Deprecated
+		contentfulSpaceId: z.string().optional(), // Deprecated
+		directusToken: z.string(),
+		directusURL: z.string(),
+		productKnowledgeBaseId: z.string().optional(), // Deprecated
 		saleorDomain: z.string(),
-		spaKnowledgeBaseId: z.string(),
+		vectorizeURL: z.string().optional(),
+		spaKnowledgeBaseId: z.string().optional(), // Deprecated
 		token: z.string(),
 		wyvernURL: z.string(),
-		bazaarvoiceKey: z.string().optional(), // Deprecated
+		yextToken: z.string().optional(), // Deprecated
+		yextURL: z.string().optional(), // Deprecated
 	}),
 };

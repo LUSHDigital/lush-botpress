@@ -116,6 +116,33 @@ export async function handleProductUpdated({
 		throw new RuntimeError(error);
 	}
 }
+
+export async function handleProductLaunchUpdated({
+	event,
+	client,
+	logger,
+}: productHandlerArgs): Promise<void> {
+	try {
+		logger
+			.forBot()
+			.debug(
+				"handleProductLaunchUpdated[event]",
+				JSON.stringify(event, null, 2),
+			);
+		const dto = transformProducts(event, logger);
+
+		await client.createEvent({
+			type: "productLaunchUpdated",
+			payload: {
+				type: "lush:productLaunchUpdated",
+				...dto,
+			},
+		});
+	} catch (error) {
+		throw new RuntimeError(error);
+	}
+}
+
 export async function handleCheckoutCreated({
 	event,
 	logger,

@@ -1,36 +1,48 @@
 import {
-  basketUpdatedSchema,
-  checkoutPaidSchema,
-  checkoutUpdatedSchema,
-  productCreatedSchema,
-  productUpdatedSchema
-} from '../schemas'
+	basketUpdatedSchema,
+	checkoutPaidSchema,
+	checkoutUpdatedSchema,
+	productCreatedSchema,
+	productLaunchUpdatedSchema,
+	productRelationshipUpdatedSchema,
+	productUpdatedSchema,
+} from "../schemas";
 
 const basketUpdated = {
-  schema: basketUpdatedSchema,
-  ui: {}
-}
+	schema: basketUpdatedSchema,
+	ui: {},
+};
 const checkoutPaid = {
-  schema: checkoutPaidSchema,
-  ui: {}
-}
+	schema: checkoutPaidSchema,
+	ui: {},
+};
 const checkoutUpdated = {
-  schema: checkoutUpdatedSchema,
-  ui: {}
-}
+	schema: checkoutUpdatedSchema,
+	ui: {},
+};
 const productCreated = {
-  schema: productCreatedSchema,
-  ui: {}
-}
+	schema: productCreatedSchema,
+	ui: {},
+};
 const productUpdated = {
-  schema: productUpdatedSchema,
-  ui: {}
-}
+	schema: productUpdatedSchema,
+	ui: {},
+};
+const productRelationshipUpdated = {
+	schema: productRelationshipUpdatedSchema,
+	ui: {},
+};
+const productLaunchUpdated = {
+	schema: productLaunchUpdatedSchema,
+	ui: {},
+};
 
 export const events = {
-  basketUpdated,
-  checkoutPaid,
-  checkoutUpdated,
-  productCreated,
-  productUpdated
-}
+	basketUpdated,
+	checkoutPaid,
+	checkoutUpdated,
+	productCreated,
+	productUpdated,
+	productLaunchUpdated,
+	productRelationshipUpdated,
+};
