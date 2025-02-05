@@ -71,10 +71,11 @@ const query = gql`
 `;
 
 function getChannel(channel: string) {
-	// TODO mena
 	switch (channel.toLowerCase()) {
 		case "gb":
 			return "uk";
+		case "ae":
+			return "mena";
 		default:
 			return channel.toLowerCase();
 	}
