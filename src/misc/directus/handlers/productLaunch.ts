@@ -12,7 +12,10 @@ export async function handleDirectusProductLaunchUpdated({
 	try {
 		logger
 			.forBot()
-			.debug("handleProductUpdated[event]", JSON.stringify(entry, null, 2));
+			.debug(
+				"handleDirectusProductLaunchUpdated[event]",
+				JSON.stringify(entry, null, 2),
+			);
 
 		const [id] = entry.keys;
 		if (!id) {

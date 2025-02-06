@@ -45,7 +45,15 @@
 	letter-spacing: -0.5px;
 }
 
-.bpMessageBlocksTextText del {
+.dark .bpMessageContainer[data-direction="incoming"] .bpMessageBlocksBubble {
+	color: #fff;
+}
+
+li .bpMessageBlocksTextText {
+	display: inline-block;
+}
+
+.bpMessageContainer del {
 	text-decoration: none;
 	color: var(--green);
 }

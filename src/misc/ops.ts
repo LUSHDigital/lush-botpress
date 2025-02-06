@@ -7,12 +7,12 @@ import type { Product } from "./types";
 import type { Client } from ".botpress";
 import type { Configuration } from ".botpress/implementation/configuration";
 
+import { createDirectus, rest, staticToken, updateItems } from "@directus/sdk";
 import { createClient } from "contentful";
 import app, { type Webhook } from "src/gql/app";
 import createWebhook from "src/gql/createWebhook";
 import deleteWebhook from "src/gql/deleteWebhook";
 import { transformProducts } from "./utils";
-// import { getUserAndConversation } from './utils'
 
 export async function createOrGetWebhook(
 	url: string,
@@ -62,14 +62,13 @@ export async function removeWebhook(
 		await deleteWebhook(previous.id, token, wyvernURL);
 		return;
 	}
-
-	console.log("no webhook found");
 }
 
 interface productHandlerArgs {
 	event: Product;
 	client: Client;
 	logger: IntegrationLogger;
+	ctx: IntegrationContext<Configuration>;
 }
 
 interface checkoutHandlerArgs {
@@ -96,22 +95,36 @@ export async function handleProductCreated({
 }
 export async function handleProductUpdated({
 	event,
-	client,
-	logger,
+	ctx,
 }: productHandlerArgs): Promise<void> {
 	try {
-		logger
-			.forBot()
-			.debug("handleProductUpdated[event]", JSON.stringify(event, null, 2));
-		const dto = transformProducts(event, logger);
+		// To keep things simple, when a Saleor update happens we trigger a toggle in Directus.
+		const directus = createDirectus(ctx.configuration.directusURL)
+			.with(rest())
+			.with(staticToken(ctx.configuration.directusToken));
 
-		await client.createEvent({
-			type: "productUpdated",
-			payload: {
-				type: "lush:productUpdated",
-				...dto,
-			},
-		});
+		if (!event.uk?.id) {
+			return;
+		}
+
+		await directus.request(
+			updateItems(
+				"product",
+				{
+					filter: {
+						saleorId: {
+							_eq: event.uk.id,
+						},
+					},
+				},
+				{
+					toggle: true,
+				},
+				{
+					fields: ["id", "name"],
+				},
+			),
+		);
 	} catch (error) {
 		throw new RuntimeError(error);
 	}

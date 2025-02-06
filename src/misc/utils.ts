@@ -9,7 +9,7 @@ import type {
 	TransformedVariant,
 } from "./types";
 
-import { INTEGRATION_NAME } from "../const";
+import { INTEGRATION_NAME, channels } from "../const";
 
 export const getTag = (
 	tags: Record<string, string>,
@@ -112,6 +112,9 @@ function convertEditorJsToMarkdown(jsonString: string): string {
 }
 
 function convertParagraphToMarkdown(text: string): string {
+	if (!text) {
+		return "";
+	}
 	// Convert HTML tags to Markdown equivalents
 	return text
 		.replace(/<b>(.*?)<\/b>/g, "**$1**") // Bold
@@ -125,6 +128,9 @@ function flattenAttributeValues(
 	attribute: ProductAttribute,
 	includeLowerCase = false,
 ): string[] {
+	if (!attribute?.values) {
+		return [];
+	}
 	if (includeLowerCase) {
 		const x = attribute.values.map((value) =>
 			value.name.replace(/&nbsp;/g, "").trim(),
@@ -145,112 +151,117 @@ export function transformProducts(
 	variants: Record<string, TransformedVariant[]>;
 	product: TransformedProduct;
 } {
-	const channels = ["uk"]; // Channels we support.
+	try {
+		const canonicalData = productData.uk!;
 
-	const canonicalData = productData.uk!;
+		const transformedProduct: TransformedProduct = {
+			commerce_id: canonicalData.id,
+			name: canonicalData.name.trim(),
+			collections: canonicalData.collections?.map((collection) =>
+				collection.name.trim(),
+			),
+			type:
+				flattenAttributeValues(canonicalData.type)?.[0]?.toLowerCase() || "",
+			average_rating: canonicalData.rating || undefined,
+			description: convertEditorJsToMarkdown(canonicalData.description),
+			benefits: flattenAttributeValues(canonicalData.benefits, true),
+			colours: flattenAttributeValues(canonicalData.colours, true),
+			key_ingredients: flattenAttributeValues(
+				canonicalData.key_ingredients,
+				true,
+			),
+			moods: flattenAttributeValues(canonicalData.moods, true),
+			scents: flattenAttributeValues(canonicalData.scents, true),
+			certifications: flattenAttributeValues(
+				canonicalData.certifications,
+				true,
+			),
+			strapline: flattenAttributeValues(canonicalData.strapline)?.[0],
+			images:
+				canonicalData.media
+					?.filter((media) => media.type === "IMAGE")
+					?.map((media) => ({
+						url: media.url,
+						description: media.alt,
+					})) || [],
+		};
 
-	const transformedProduct: TransformedProduct = {
-		commerce_id: canonicalData.id,
-		name: canonicalData.name.trim(),
-		collections: canonicalData.collections.map((collection) =>
-			collection.name.trim(),
-		),
-		type: flattenAttributeValues(canonicalData.type)?.[0]?.toLowerCase() || "",
-		average_rating: canonicalData.rating || undefined,
-		description: convertEditorJsToMarkdown(canonicalData.description),
-		benefits: flattenAttributeValues(canonicalData.benefits, true),
-		colours: flattenAttributeValues(canonicalData.colours, true),
-		key_ingredients: flattenAttributeValues(
-			canonicalData.key_ingredients,
-			true,
-		),
-		moods: flattenAttributeValues(canonicalData.moods, true),
-		scents: flattenAttributeValues(canonicalData.scents, true),
-		certifications: flattenAttributeValues(canonicalData.certifications, true),
-		strapline: flattenAttributeValues(canonicalData.strapline)?.[0],
-		images: canonicalData.media
-			.filter((media) => media.type === "IMAGE")
-			.map((media) => ({
-				url: media.url,
-				description: media.alt,
-			})),
-	};
+		const variants: Record<string, TransformedVariant[]> = {};
 
-	const variants: Record<string, TransformedVariant[]> = {};
+		for (const channel in productData) {
+			if (productData.hasOwnProperty(channel)) {
+				const product = productData[channel];
 
-	for (const channel in productData) {
-		if (productData.hasOwnProperty(channel)) {
-			const product = productData[channel];
-
-			if (!product || !product.variants || !channels.includes(channel)) {
-				continue;
-			}
-
-			// Transform variants
-			for (const variant of product.variants) {
-				// const formattedPrice = new Intl.NumberFormat("en", {
-				// 	style: "currency",
-				// 	currency: variant.pricing.price.gross.currency,
-				// }).format(variant.pricing.price.gross.amount);
-
-				const transformedVariant: TransformedVariant = {
-					name: [canonicalData.name, variant.name].filter(Boolean).join(": "),
-					commerce_id: product.id,
-					available: false,
-					variant_id: variant.id,
-					price: variant.pricing.price.gross.amount,
-				};
-
-				// Get name.
-				if (variant.attributes) {
-					for (const attribute of variant.attributes) {
-						if (attribute.attribute.slug === "display_weight") {
-							const weighted = attribute.values.map((value) => value.name)[0];
-							if (weighted) {
-								transformedVariant.name = [canonicalData.name, weighted]
-									.filter(Boolean)
-									.join(": ");
-							}
-							break;
-						}
-					}
+				if (!product || !product.variants || !channels.includes(channel)) {
+					continue;
 				}
 
-				// Get availability.
-				if (variant.attributes) {
-					for (const attribute of variant.attributes) {
-						if (attribute.attribute.slug === "availability_commerce_web") {
-							for (const value of attribute.values) {
-								const [channelCode, _, status] = value.slug.split("_");
+				// Transform variants
+				for (const variant of product.variants) {
+					// const formattedPrice = new Intl.NumberFormat("en", {
+					// 	style: "currency",
+					// 	currency: variant.pricing.price.gross.currency,
+					// }).format(variant.pricing.price.gross.amount);
 
-								if (!channelCode) {
-									// Shouldn't happen but #TS.
-									continue;
-								}
+					const transformedVariant: TransformedVariant = {
+						name: [canonicalData.name, variant.name].filter(Boolean).join(": "),
+						commerce_id: product.id,
+						available: false,
+						variant_id: variant.id,
+						price: variant.pricing.price.gross.amount,
+					};
 
-								if (!channels.includes(channelCode)) {
-									// Skip if channel unsupported.
-									continue;
+					// Get name.
+					if (variant.attributes) {
+						for (const attribute of variant.attributes) {
+							if (attribute.attribute.slug === "display_weight") {
+								const weighted = attribute.values.map((value) => value.name)[0];
+								if (weighted) {
+									transformedVariant.name = [canonicalData.name, weighted]
+										.filter(Boolean)
+										.join(": ");
 								}
-
-								if (status === "available") {
-									transformedVariant.available = true;
-								}
+								break;
 							}
 						}
 					}
-				}
 
-				if (variants[channel]) {
-					variants[channel].push(transformedVariant);
-				} else {
-					variants[channel] = [transformedVariant];
+					// Get availability.
+					if (variant.attributes) {
+						for (const attribute of variant.attributes) {
+							if (attribute.attribute.slug === "availability_commerce_web") {
+								for (const value of attribute.values) {
+									const [channelCode, _, status] = value.slug.split("_");
+
+									if (!channelCode) {
+										// Shouldn't happen but #TS.
+										continue;
+									}
+
+									if (!channels.includes(channelCode)) {
+										// Skip if channel unsupported.
+										continue;
+									}
+
+									if (status === "available") {
+										transformedVariant.available = true;
+									}
+								}
+							}
+						}
+					}
+
+					if (variants[channel]) {
+						variants[channel].push(transformedVariant);
+					} else {
+						variants[channel] = [transformedVariant];
+					}
 				}
 			}
 		}
+
+		return { variants, product: transformedProduct };
+	} catch (error) {
+		logger.forBot().error("transformProducts error", error);
 	}
-
-	logger.forBot().debug(variants);
-
-	return { variants, product: transformedProduct };
 }

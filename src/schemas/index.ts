@@ -121,6 +121,8 @@ export const productUpdatedSchema = z.object({
 		commerce_id: z.string(),
 		name: z.string(),
 		type: z.string(),
+		additional: z.string().optional(),
+		category: z.string().optional(),
 		strapline: z.string().optional(),
 		description: z.string().optional(),
 		certifications: z.array(z.string()).optional(),

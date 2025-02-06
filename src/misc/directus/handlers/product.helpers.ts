@@ -148,7 +148,7 @@ export async function transformProduct(
 		colours: productData.colours?.map(toLowercase) || [],
 		commerce_id: productData.saleorId,
 		description: productData.description,
-		key_ingredients: productData.keyIngredients.map(
+		key_ingredients: productData.keyIngredients?.map(
 			(ingredient) => ingredient.ingredientFamily_id.name,
 		),
 		moods: productData.moods?.map(toLowercase) || [],
@@ -156,12 +156,16 @@ export async function transformProduct(
 		scents: productData.scents?.map(toLowercase) || [],
 		strapline: productData.strapline || "",
 		type: productData.type?.name?.toLowerCase() || "",
+		additional: "",
+		// additional: JSON.stringify(productData),
 	};
 
-	logger.forBot().debug("TransformedProduct", transformedProduct);
-
-	const variants = await getVariants(productData.saleorId || "", ctx);
-	logger.forBot().debug("Saleor variants", JSON.stringify(variants));
+	const variants = await getVariants(productData.saleorId || "", ctx).catch(
+		(error) => {
+			logger.forBot().error("getVariants[catch]", error);
+			return [];
+		},
+	);
 
 	const transformedVariants: TransformedVariant[] = [];
 
@@ -213,9 +217,8 @@ export async function transformProduct(
 	}
 
 	const groupedVariants = groupProductVariants(transformedVariants);
-	logger.forBot().debug("Grouped", JSON.stringify(groupedVariants));
 
-	const finalVariants = groupedVariants.map((variant) => {
+	const finalVariants = groupedVariants?.map((variant) => {
 		for (const channel of channels) {
 			if (!Object.keys(variant.availability).includes(channel)) {
 				variant.availability[channel] = false;
@@ -233,7 +236,9 @@ export async function transformProduct(
 		return variant;
 	});
 
-	logger.forBot().debug("Grouped Final", JSON.stringify(finalVariants));
+	logger
+		.forBot()
+		.debug("transformedProduct", JSON.stringify(transformedProduct));
 
 	return { product: transformedProduct, variants: finalVariants };
 }

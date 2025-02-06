@@ -81,9 +81,9 @@ export const handler: IntegrationProps["handler"] = async ({
 			case "product_created":
 				return await handleProductCreated({ event, client, logger });
 			case "product_updated":
-				return await handleProductUpdated({ event, client, logger });
+				return await handleProductUpdated({ event, client, logger, ctx });
 			case "product_variant_updated":
-				return await handleProductUpdated({ event, client, logger });
+				return await handleProductUpdated({ event, client, logger, ctx });
 			case "checkout_created":
 				return await handleCheckoutCreated({ event, ctx, logger, client });
 			case "checkout_updated":

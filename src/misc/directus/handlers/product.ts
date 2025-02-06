@@ -13,9 +13,9 @@ export async function handleDirectusProductUpdated({
 	logger,
 }: ProductHandlerArgs): Promise<void> {
 	try {
-		logger
-			.forBot()
-			.debug("handleProductUpdated[event]", JSON.stringify(entry, null, 2));
+		// logger
+		// 	.forBot()
+		// 	.debug("handleProductUpdated[event]", JSON.stringify(entry, null, 2));
 
 		// Can't fetch what we don't have.
 		const [productId] = entry.keys;
@@ -31,10 +31,12 @@ export async function handleDirectusProductUpdated({
 			readItem("product", productId, {
 				fields: [
 					"*",
+					"reportingCategory.*",
 					"reportingCategory.*.*",
 					"type.name",
 					"relatedProducts.relatedProduct.*",
 					"relatedProducts.reason",
+					"keyIngredients.*",
 					"keyIngredients.*.*",
 				],
 			}),
@@ -42,12 +44,12 @@ export async function handleDirectusProductUpdated({
 
 		const dto = await transformProduct(directusProduct, logger, ctx);
 
-		logger
-			.forBot()
-			.debug(
-				"handleProductUpdated[directusProduct]",
-				JSON.stringify(directusProduct),
-			);
+		// logger
+		// 	.forBot()
+		// 	.debug(
+		// 		"handleProductUpdated[directusProduct]",
+		// 		JSON.stringify(directusProduct),
+		// 	);
 		if (directusProduct.relatedProducts?.length) {
 			for (const relatedProduct of directusProduct.relatedProducts) {
 				await client.createEvent({
