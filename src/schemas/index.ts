@@ -176,7 +176,7 @@ export const productRelationshipUpdatedSchema = z.object({
 	uid: z.string(),
 	commerce_id: z.string(),
 	related_commerce_id: z.string(),
-	reason: z.string().optional(),
+	reason: z.string().optional().nullable(),
 });
 
 export type basketUpdated = z.infer<typeof basketUpdatedSchema>;
