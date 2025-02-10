@@ -132,6 +132,44 @@ export function groupProductVariants(products: Product[]): GroupedProduct[] {
 	return Object.values(groupedProductsMap);
 }
 
+function formatSkincareFields(product: Product): string {
+	return JSON.stringify({
+		commerce_id: product.saleorId,
+		spf: product.spf,
+		richness_scale: product.richnessScale,
+		scrubbiness_scale: product.scrubbinessScale,
+	});
+}
+
+function formatOralFields(product: Product): string {
+	return JSON.stringify({
+		commerce_id: product.saleorId,
+		shadesLighter: product.shadesLighter,
+		abrasivity: product.abrasivityLevel,
+		fluoride: product.containsFluoride,
+	});
+}
+
+function formatGiftFields(product: Product): string {
+	return JSON.stringify({
+		commerce_id: product.saleorId,
+		suitable_for_bath: product.suitableForBath,
+		suitable_for_shower: product.suitableForShower,
+		celebrations: product.celebration,
+		star_signs: product.starSigns,
+	});
+}
+
+function formatHaircareFields(product: Product): string {
+	return JSON.stringify({
+		commerce_id: product.saleorId,
+		love: product.love || "",
+		want: product.want || "",
+		need: product.need || "",
+		scent: product.scentDetails || "",
+	});
+}
+
 // Transform product data
 export async function transformProduct(
 	productData: Product,
@@ -139,26 +177,49 @@ export async function transformProduct(
 	ctx: IntegrationContext<Configuration>,
 ): Promise<{ product: TransformedProduct; variants: GroupedProduct[] }> {
 	const toLowercase = (string: string) => string.toLowerCase();
+	logger.forBot().debug("Raw productData", JSON.stringify(productData));
 
 	const transformedProduct: TransformedProduct = {
-		category: productData.reportingCategory?.name,
-		benefits: productData.benefits?.map(toLowercase) || [],
-		certifications: productData.certifications?.map(toLowercase) || [],
-		collections: productData.ranges || [],
-		colours: productData.colours?.map(toLowercase) || [],
-		commerce_id: productData.saleorId,
-		description: productData.description,
-		key_ingredients: productData.keyIngredients?.map(
-			(ingredient) => ingredient.ingredientFamily_id.name,
-		),
-		moods: productData.moods?.map(toLowercase) || [],
-		name: productData.name,
-		scents: productData.scents?.map(toLowercase) || [],
+		category: productData.reportingCategory?.[0]?.item?.name,
+		benefits: (productData.benefits as [])?.map(toLowercase) || [],
+		certifications: (productData.certifications as [])?.map(toLowercase) || [],
+		collections: (productData.ranges as []) || [],
+		colours: (productData.colours as [])?.map(toLowercase) || [],
+		commerce_id: productData.saleorId || "",
+		description: productData.description || "",
+		key_ingredients: (productData.keyIngredients || [])
+			.map((ingredient) => ingredient?.ingredientFamily_id?.name)
+			.filter(Boolean),
+		moods: (productData.moods as [])?.map(toLowercase) || [],
+		name: productData.name || "",
+		scents: (productData.scents as [])?.map(toLowercase) || [],
 		strapline: productData.strapline || "",
 		type: productData.type?.name?.toLowerCase() || "",
-		additional: "",
-		// additional: JSON.stringify(productData),
 	};
+
+	if (transformedProduct.category?.includes("Body")) {
+		logger.forBot().debug("Treating as skincare");
+		transformedProduct.skincare = formatSkincareFields(productData);
+		logger.forBot().debug("Formatted", transformedProduct.skincare);
+	}
+
+	if (transformedProduct.category?.includes("Mouth")) {
+		logger.forBot().debug("Treating as oral");
+		transformedProduct.oral = formatOralFields(productData);
+		logger.forBot().debug("Formatted", transformedProduct.oral);
+	}
+
+	if (transformedProduct.category?.includes("Gift")) {
+		logger.forBot().debug("Treating as gift");
+		transformedProduct.gift = formatGiftFields(productData);
+		logger.forBot().debug("Formatted", transformedProduct.gift);
+	}
+
+	if (transformedProduct.category?.includes("Hair")) {
+		logger.forBot().debug("Treating as hair");
+		transformedProduct.haircare = formatHaircareFields(productData);
+		logger.forBot().debug("Formatted", transformedProduct.haircare);
+	}
 
 	const variants = await getVariants(productData.saleorId || "", ctx).catch(
 		(error) => {

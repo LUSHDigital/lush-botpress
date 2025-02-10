@@ -244,6 +244,7 @@ export interface TransformedVariant {
 export interface TransformedProduct {
 	average_rating?: number;
 	benefits?: string[];
+	category?: string;
 	collections?: string[];
 	certifications?: string[];
 	colours?: string[];
@@ -259,6 +260,12 @@ export interface TransformedProduct {
 	scents?: string[];
 	strapline?: string;
 	type?: string;
+	skincare?: string;
+	oral?: string;
+	soap?: string;
+	bath?: string;
+	gift?: string;
+	haircare?: string;
 }
 
 export interface ProductChannelListing {

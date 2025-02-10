@@ -9,14 +9,14 @@ importers:
   .:
     dependencies:
       '@botpress/sdk':
-        specifier: 3.0.2
-        version: 3.0.2(@bpinternal/zui@0.13.5(react@18.3.1))(esbuild@0.16.17)
+        specifier: 3.1.0
+        version: 3.1.0(@bpinternal/zui@0.13.5(react@18.3.1))(esbuild@0.16.17)
       '@directus/sdk':
         specifier: 19.0.1
         version: 19.0.1
       contentful:
-        specifier: 11.4.5
-        version: 11.4.5
+        specifier: 11.4.6
+        version: 11.4.6
       graphql-request:
         specifier: 7.1.2
         version: 7.1.2(graphql@16.8.1)
@@ -28,11 +28,11 @@ importers:
         specifier: 1.9.4
         version: 1.9.4
       '@botpress/cli':
-        specifier: 3.0.4
-        version: 3.0.4(@bpinternal/zui@0.13.5(react@18.3.1))
+        specifier: 3.1.0
+        version: 3.1.0(@bpinternal/zui@0.13.5(react@18.3.1))
       '@botpress/client':
-        specifier: 0.41.2
-        version: 0.41.2
+        specifier: 0.42.0
+        version: 0.42.0
       '@types/node':
         specifier: ^18
         version: 18.19.32
@@ -105,16 +105,16 @@ packages:
   '@botpress/chat@0.4.9':
     resolution: {integrity: sha512-ew4Z7gFbDzkxMeOctYjG0XK4NoLkZaHVjHCkxou/1e4RhE8ILHCyMGOsgbzXrC6xeHCca6ws665hmTQLR+LGVA==}
 
-  '@botpress/cli@3.0.4':
-    resolution: {integrity: sha512-zuMyZ4iH2eQCFXFvlOJsYS3KSR7VhhaelHmlbGZ1VPxUSupHjFJrtecvPWot/YuNKvc65RrMy6zfBsUXcptykw==}
+  '@botpress/cli@3.1.0':
+    resolution: {integrity: sha512-O47OQrioyrHKxQZ6szkrsTMVCdS7k7ImhVjFVqyJR8rYAFu9kww/wwVmBSQIFnIOhW/3MhiIjT0PLhR7HdfJWA==}
     engines: {node: '>=18'}
     hasBin: true
 
-  '@botpress/client@0.41.2':
-    resolution: {integrity: sha512-i6tMNNyDa+1TtmuXdAOzFxC6Mbd31aQXlAVBp7cbr3BKIsWkjZJuimd2pX9OtTK/J572jn9iD52G4N+XjPcqUw==}
+  '@botpress/client@0.42.0':
+    resolution: {integrity: sha512-mylxQzCqkAbQJ6BaMPLFDj7sZpm221LvwSlF9nQL0oNGnPFDcJsv+DlMFaI1ncIpMyoVa3ncDHsz2XxmDs/aTA==}
 
-  '@botpress/sdk@3.0.2':
-    resolution: {integrity: sha512-l06XtuNFFdVA3OKPyZQc/EJNjewCu3NnCAFtsJ2y0n687r6pECByRcKDssHU4s5wg+k8zx/9XB0d1/hYmfTuFA==}
+  '@botpress/sdk@3.1.0':
+    resolution: {integrity: sha512-vjxS3W2zurEIjZi5jTB77+U8mZ77EucFMKiKZ/NRkicTfPvbs/v441UbsHXPep1DwzNLku0uflYnNRqbhjYQxQ==}
     peerDependencies:
       '@bpinternal/zui': ^0.13.5
       esbuild: ^0.16.12
@@ -968,8 +968,8 @@ packages:
     resolution: {integrity: sha512-Ao/5Y74ERPn6kjzb/8okYPuQJnikMtR+dnv0plLw8IvPomwXonLq3qom0rLSyo5KuvQkBMa9AApy1izunxW4mw==}
     engines: {node: '>=18'}
 
-  contentful@11.4.5:
-    resolution: {integrity: sha512-SC4yb5YXpiwq3msnBYmKrgi8oxSQW2q6RBwl8KLP/lmd5KQfoHHPEWokV6V0xJrH0bOXmNXXaxF0ouq2Gyu+Vg==}
+  contentful@11.4.6:
+    resolution: {integrity: sha512-e+jnVTIBDvahn9xR7qndgCKYZi/iig8BaP9CK/mzBWi5F9iad+fZDmV2N5J0aj9qJtDrgDjIt3OgYHuWOpVBWA==}
     engines: {node: '>=18'}
 
   core-util-is@1.0.2:
@@ -2136,12 +2136,12 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
-  '@botpress/cli@3.0.4(@bpinternal/zui@0.13.5(react@18.3.1))':
+  '@botpress/cli@3.1.0(@bpinternal/zui@0.13.5(react@18.3.1))':
     dependencies:
       '@apidevtools/json-schema-ref-parser': 11.7.2
       '@botpress/chat': 0.4.9
-      '@botpress/client': 0.41.2
-      '@botpress/sdk': 3.0.2(@bpinternal/zui@0.13.5(react@18.3.1))(esbuild@0.16.17)
+      '@botpress/client': 0.42.0
+      '@botpress/sdk': 3.1.0(@bpinternal/zui@0.13.5(react@18.3.1))(esbuild@0.16.17)
       '@bpinternal/const': 0.0.20
       '@bpinternal/tunnel': 0.1.7
       '@bpinternal/yargs-extra': 0.0.3
@@ -2191,7 +2191,7 @@ snapshots:
       - utf-8-validate
       - webdriverio
 
-  '@botpress/client@0.41.2':
+  '@botpress/client@0.42.0':
     dependencies:
       axios: 1.7.9
       axios-retry: 4.5.0(axios@1.7.9)
@@ -2201,9 +2201,9 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
-  '@botpress/sdk@3.0.2(@bpinternal/zui@0.13.5(react@18.3.1))(esbuild@0.16.17)':
+  '@botpress/sdk@3.1.0(@bpinternal/zui@0.13.5(react@18.3.1))(esbuild@0.16.17)':
     dependencies:
-      '@botpress/client': 0.41.2
+      '@botpress/client': 0.42.0
       '@bpinternal/zui': 0.13.5(react@18.3.1)
       browser-or-node: 2.1.1
     optionalDependencies:
@@ -3000,7 +3000,7 @@ snapshots:
     optionalDependencies:
       '@rollup/rollup-linux-x64-gnu': 4.28.0
 
-  contentful@11.4.5:
+  contentful@11.4.6:
     dependencies:
       '@contentful/content-source-maps': 0.11.7
       '@contentful/rich-text-types': 16.8.5

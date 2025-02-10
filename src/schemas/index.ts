@@ -121,7 +121,6 @@ export const productUpdatedSchema = z.object({
 		commerce_id: z.string(),
 		name: z.string(),
 		type: z.string(),
-		additional: z.string().optional(),
 		category: z.string().optional(),
 		strapline: z.string().optional(),
 		description: z.string().optional(),
@@ -141,6 +140,11 @@ export const productUpdatedSchema = z.object({
 			)
 			.optional(),
 		average_rating: z.number().optional(),
+		// Additional attributes
+		skincare: z.string().optional(),
+		gift: z.string().optional(),
+		oral: z.string().optional(),
+		haircare: z.string().optional(),
 	}),
 	variants: z.array(variantSchema),
 });
