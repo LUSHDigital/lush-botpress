@@ -215,7 +215,11 @@ export async function transformProduct(
 		logger.forBot().debug("Formatted", transformedProduct.gift);
 	}
 
-	if (transformedProduct.category?.includes("Hair")) {
+	if (
+		transformedProduct.category?.includes("Hair") ||
+		transformedProduct.category?.includes("Shampoo") ||
+		transformedProduct.category?.includes("Conditioner")
+	) {
 		logger.forBot().debug("Treating as hair");
 		transformedProduct.haircare = formatHaircareFields(productData);
 		logger.forBot().debug("Formatted", transformedProduct.haircare);

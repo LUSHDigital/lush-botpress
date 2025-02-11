@@ -89,6 +89,7 @@ export async function handleDirectusProductUpdated({
 			logger.forBot().debug("Vectorized", await vectorized.text());
 		}
 	} catch (error) {
+		logger.forBot().error(error);
 		throw new RuntimeError(error);
 	}
 }
